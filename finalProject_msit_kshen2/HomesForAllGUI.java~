@@ -11,7 +11,6 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.Color;
-import java.awt.Font;
 import javax.swing.JTabbedPane;
 import javax.swing.*;
 
@@ -21,11 +20,10 @@ public class HomesForAllGUI extends HomesForAll {
     //create an instance of HomesForAll
     HomesForAll hfa = new HomesForAll();
     
+    
     // creates and shows a Frame 
     JFrame frame = new JFrame("HomesForAll");
-    frame.setPreferredSize(new Dimension(800,800));
-    frame.setResizable(false);
-//    frame.setFont(new Font("Helvetica", Font.BOLD, 24));
+    frame.setPreferredSize(new Dimension(600,400));
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     
     // adds 3 tabs for panels
