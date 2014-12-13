@@ -55,6 +55,19 @@ public class HomesForAll {
   //---------------------------------Instance Methods
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   
+  public void saveSearchRes(String newFileName) {
+    try {
+   PrintWriter writer = new PrintWriter(new File(neFileName));
+   //need to go through the searchRes LinkedList and print out each...
+   //LinkedLIst needs to be type... fuck. needs to be type Apt or Home... 
+   //maybe we actually do need a parent/child relationship...
+   writer.println("");
+   
+   writer.close();
+  } catch (IOException ex) {
+   System.out.println("***(T)ERROR*** The file couldn't be written: " + ex);
+  }
+  }
   
   
   
