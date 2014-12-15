@@ -35,7 +35,8 @@ public class HomesForAllGUI extends HomesForAll {
     tp.addTab("Search", new SearchPanel(hfa));
     tp.addTab("Map", new VisualPanel(hfa));
     
-    
+    //the new Color created is the green we had... wasn't sure which you had...
+    frame.getContentPane().setBackground(new Color(26, 151, 34));
     frame.getContentPane().add(tp);
  
     frame.pack();
