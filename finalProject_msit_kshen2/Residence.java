@@ -15,6 +15,9 @@
  */
 
 
+import java.util.*;
+import java.io.*;
+
 
 public class Residence {
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -108,7 +111,7 @@ public class Residence {
    * 
    * @return isInDanger instance variable
    */
-  public boolean isInDanger() {
+  public boolean getIsInDanger() {
     return isInDanger;
   }
   
@@ -122,6 +125,40 @@ public class Residence {
   }
   
   
+  public void setResident(String name) {
+    resident = name;
+  }
+  
+  
+  public void setResType(String type) {
+    String s = type.toLowerCase();
+    resType = (s.equals("home")) ? RESTYPE1 : (s.equals("apartment")) ? RESTYPE2 : null;  
+  }
+  
+  public void setBOrL(String borl) {
+    this.bOrL = borl;
+  }
+  
+  public void setAmt(int value) {
+    amt = value;
+  }
+  
+  public void setXCoor(int x) {
+    xCoor = x;
+  }
+  
+  public void setYCoor(int y) {
+    yCoor = y;
+  }
+  
+  public void setAddress(String input) {
+    address = input;
+  }
+  
+  public void setIsInDanger(boolean status) {
+    isInDanger = status;
+  }
+  
   /**
    * Returns a String representation of an instance of 'Residence'. 
    * 
@@ -133,7 +170,8 @@ public class Residence {
     s += "This is the Residence (type: " + resType + ") you created: \n";
     s += "Resident: " + resident + "\nMortgage/Rent Value: " + amt 
       + "\nBank/Landlord: " + bOrL;
-    s += "\nAddress: " + address + "\nStatus: " + isInDanger + "\n";
+    s += "\nAddress: " + address + "\nStatus: ";
+    s += (isInDanger) ? "In Danger\n" : "Not In Danger\n";
     return s;
   }
   
