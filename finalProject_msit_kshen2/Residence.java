@@ -8,12 +8,6 @@
  * 
  */
 
-/* Random Notes as needed:
- * 
- * 
- * 
- */
-
 
 import java.util.*;
 import java.io.*;
@@ -31,9 +25,8 @@ public class Residence {
   
   private int xCoor, yCoor;
   private String address;
-  //private Vector<Integer> address; 
-  
-  
+
+
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   //------------------------------Constructor Methods
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -48,8 +41,7 @@ public class Residence {
   public Residence() {
     resident = bOrL = resType = address = null;
     isInDanger = false;
-    amt = xCoor = yCoor = 0;
-    
+    amt = xCoor = yCoor = -1;
   }
   
   /**
@@ -124,41 +116,89 @@ public class Residence {
     return resType;
   }
   
+  
+  /**
+   * Returns the address of the Residence
+   * 
+   * @return address instance variable
+   */
   public String getAddress() {
    return address; 
   }
   
-  
+  /**
+   * Sets the Resident name to the string input
+   * 
+   * @param name the new Resident name
+   */
   public void setResident(String name) {
     resident = name;
   }
   
   
+  /**
+   * Sets the resType to string input
+   * 
+   * @param type the new resType assignment
+   */
   public void setResType(String type) {
     String s = type.toLowerCase();
-    resType = (s.equals("home")) ? RESTYPE1 : (s.equals("apartment")) ? RESTYPE2 : null;  
+    //resType gets either RESTYPE1 or RESTYPE2 depending on whether or not the 
+    //string parameter fits in the required pattern (either 'home' or 'apt')
+    //otherwise sets as null
+    resType = (s.equals("home")) ? RESTYPE1 : (s.equals("apt")) ? RESTYPE2 : null;  
   }
   
+  /**
+   * Sets the bOrL to the string input. 
+   * 
+   * @param borl the new bOrL
+   */
   public void setBOrL(String borl) {
     this.bOrL = borl;
   }
   
+  /**
+   * Sets the amoount of either mortgage or rent to the input
+   * 
+   * @param value the new amt
+   */
   public void setAmt(int value) {
     amt = value;
   }
   
+  /**
+   * Sets the xCoor to the input
+   * 
+   * @param x new xCoor
+   */
   public void setXCoor(int x) {
     xCoor = x;
   }
   
+  /**
+   * Sets the yCoor to the input
+   * 
+   * @param y new yCoor
+   */
   public void setYCoor(int y) {
     yCoor = y;
   }
   
+  /**
+   * Sets the address to the input.
+   * 
+   * @input the new address value
+   */
   public void setAddress(String input) {
     address = input;
   }
   
+  /**
+   * Sets the isInDanger boolean to the input
+   * 
+   * @param status the current status of residence
+   */
   public void setIsInDanger(boolean status) {
     isInDanger = status;
   }
@@ -171,11 +211,11 @@ public class Residence {
    */
   public String toString() {
     String s = "";
-    s += "This is the Residence (type: " + resType + ") you created: \n";
+    s += "Residence (type: " + resType + "): \n";
     s += "Resident: " + resident + "\nMortgage/Rent Value: " + amt 
       + "\nBank/Landlord: " + bOrL;
     s += "\nAddress: " + address + "\nStatus: ";
-    s += (isInDanger) ? "In Danger\n" : "Not In Danger\n";
+    s += (isInDanger) ? "In Danger\n" : "Not in Danger\n";
     return s;
   }
   
