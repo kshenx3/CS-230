@@ -20,10 +20,24 @@ public class HomesForAll {
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   //-------------------------------Instance Variables
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  private LinkedList searchRes, database;
   private File output;
   private int count;
-  private Hashtable<String, LinkedList> sortingHat; /*kekeke*/
+  
+  //MSit: Example linkedlist categories.  Used for testing purposes only
+  //LinkedLists
+  private LinkedList<Residence> database, homes, apts, boA, wellsFargo, chaseBank, lordEmurry, lordKasey,
+    streetA, streetB, streetC, streetD, inDanger, notDanger;
+  
+  //Sorting hashtables
+  private Hashtable<Boolean, LinkedList> dangerSort; //sorts by isInDanger
+  private Hashtable<String, LinkedList> lOrBSort; //sorts by landlord or bank
+  private Hashtable<String, LinkedList> residentSort; //sorts by resident
+  private Hashtable<String, LinkedList> addressSort;  //sorts by String address
+  private Hashtable<Integer, LinkedList> rentSort; //sorts by mortgage or rent
+  
+  //Kasey's testing LL and HT
+  private LinkedList searchRes;
+  private Hashtable<String, LinkedList> sortingHat; /*kekeke*/ 
   
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   //------------------------------Constructor Methods
@@ -35,8 +49,38 @@ public class HomesForAll {
    */ 
   public HomesForAll() {
     count = 0;
-    sortingHat = new Hashtable<String, LinkedList>();
-    database = new LinkedList();
+  
+    //initializing sorting hashtables
+    this.dangerSort = new Hashtable<Boolean, LinkedList>();
+    this.lOrBSort = new Hashtable<String, LinkedList>();
+    this.residentSort = new Hashtable<String, LinkedList>();
+    this.addressSort = new Hashtable<String, LinkedList>();
+    this.rentSort = new Hashtable<Integer, LinkedList>();
+    
+    //initalizing all  LLs
+    //MasterLL
+    this.database = new LinkedList<Residence>();
+    //Residence types
+    this.homes = new LinkedList<Residence>();
+    this.apts = new LinkedList<Residence>();
+    //Landlords and Banks
+    this.boA = new LinkedList<Residence>();
+    this.wellsFargo = new LinkedList<Residence>();
+    this.chaseBank = new LinkedList<Residence>();
+    this.lordEmurry = new LinkedList<Residence>();
+    this.lordKasey = new LinkedList<Residence>();
+    //streets for addresses
+    this.streetA = new LinkedList<Residence>();
+    this.streetB = new LinkedList<Residence>();
+    this.streetC = new LinkedList<Residence>();
+    this.streetD = new LinkedList<Residence>();
+    //inDanger or not
+    this.inDanger = new LinkedList<Residence>();
+    this.notDanger = new LinkedList<Residence>();
+    
+    //Kasey's testers
+    this.sortingHat = new Hashtable<String, LinkedList>();
+    this.database = new LinkedList();
   }
   
   
