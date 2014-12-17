@@ -46,8 +46,44 @@ public class HomesForAll {
    * @param fileName Name of the database reference as a String
    */
   public HomesForAll(String fileName) {
-    //scanner in file, adds all info to a database (hashtable).
+    database = new LinkedList();
     
+    try {
+      Scanner scan = new Scanner(new File(fileName));
+      
+      while (scan.hasNext()) {
+        Residence res = new Residence(); //create empty Residence
+        
+        res.setResident(scan.nextLine());
+        res.setResType(scan.nextLine());
+        res.setBOrL(scan.nextLine());
+        
+        //need to convert nextLine Strings into Integers for the amt, xCoor, and yCoor
+        int a = Integer.parseInt(scan.nextLine());
+        res.setAmt(a);
+        int x = Integer.parseInt(scan.nextLine());
+        res.setXCoor(x);
+        int y = Integer.parseInt(scan.nextLine());
+        res.setYCoor(y);
+        
+        res.setAddress(scan.nextLine());
+        
+        //convert nextLine() String to boolean for isInDanger
+        boolean input = Boolean.parseBoolean(scan.nextLine());
+        res.setIsInDanger(input);
+        database.push(res);
+        
+        //System.out.println("New Residence!: \n" + res); /* for debugging purposes */
+      }
+      scan.close(); 
+      
+    } catch (FileNotFoundException error) {
+      System.out.println("File not found. Constructor failed. Error: " + error + "\n"); 
+    } catch (NoSuchElementException e) { //catches the case when the latter portion of data is missing
+      System.out.println("File is missing a line somewhere in data. Constructor failed. Info creation stopped. \nError: " + e + "\n");
+    } catch (NumberFormatException mew) { //catches the case where a line is missing somewhere in the middle
+      System.out.println("File is not formatted correctly; missing line somewhere. Info creation stopped.\nError: " + mew + "\n");
+    }
   }
   
 
