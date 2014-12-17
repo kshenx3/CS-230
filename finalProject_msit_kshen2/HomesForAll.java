@@ -113,7 +113,15 @@ public class HomesForAll {
    * @return Returns HomesForAll.
    */
   public String toString() {
-    return "";
+    String s = "";
+    s += "Current size of database: (3) " + database.size() + "\n";
+    s += "First item from popping: \n" + database.pop() + "\nYayyy :D";
+    s += "\nNow go through rest of thingy\n\n";
+    while (database.size() > 0) {
+      s += "Size: " + database.size() + "\n" + database.pop() + "\n";
+      
+    }
+    return s;
   }
   
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -128,6 +136,11 @@ public class HomesForAll {
     test.sortingHat.put("Argh", test.database);
     
     System.out.println(test.sortingHat.get("Meow"));
+    System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+    
+    System.out.println("Testing the second constructor method");
+    HomesForAll test2 = new HomesForAll("testing.txt");
+    System.out.println(test2);
     
     //what this tells me is... 
     /* i need to individually go through the entire list and check for the characteristic
