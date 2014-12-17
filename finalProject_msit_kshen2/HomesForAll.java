@@ -83,7 +83,34 @@ public class HomesForAll {
    * @param fileName Name of the database reference as a String
    */
   public HomesForAll(String fileName) {
-    database = new LinkedList();
+    //initializing sorting hashtables
+    //this.residentSort = new Hashtable<String, LinkedList>();
+    this.homeAptSort = new Hashtable<String,LinkedList>();
+    this.lOrBSort = new Hashtable<String, LinkedList>(); 
+    this.addressSort = new Hashtable<String, LinkedList>();
+    this.dangerSort = new Hashtable<String, LinkedList>();
+    //this.rentSort = new Hashtable<Integer, LinkedList>();
+    
+    //initalizing all  LLs
+    //MasterLL
+    this.database = new LinkedList<Residence>();
+    //Residence types
+    this.homes = new LinkedList<Residence>();
+    this.apts = new LinkedList<Residence>();
+    //Landlords and Banks
+    this.boA = new LinkedList<Residence>();
+    this.wellsFargo = new LinkedList<Residence>();
+    this.chaseBank = new LinkedList<Residence>();
+    this.lordEmurry = new LinkedList<Residence>();
+    this.lordKasey = new LinkedList<Residence>();
+    //streets for addresses
+    this.streetA = new LinkedList<Residence>();
+    this.streetB = new LinkedList<Residence>();
+    this.streetC = new LinkedList<Residence>();
+    this.streetD = new LinkedList<Residence>();
+    //inDanger or not
+    this.inDanger = new LinkedList<Residence>();
+    this.notDanger = new LinkedList<Residence>();
     
     try {
       Scanner scan = new Scanner(new File(fileName));
@@ -130,9 +157,6 @@ public class HomesForAll {
   public void saveSearchRes(String newFileName) {
     try {
       PrintWriter writer = new PrintWriter(new File(newFileName));
-      //need to go through the searchRes LinkedList and print out each...
-      //LinkedLIst needs to be type... fuck. needs to be type Apt or Home... 
-      //maybe we actually do need a parent/child relationship...
       writer.println("");
       
       writer.close();
@@ -143,7 +167,7 @@ public class HomesForAll {
   
   //add residences to the appropriate LL
   public void addBanksLordsLL (Residence name) {
-    if (name.getBOrL() == "boA" && !boA.contains(name)) {
+    if (name.getBOrL() == "boA" && boA.contains(name)==false) {
       boA.add(name); 
       //System.out.println("BOA" + boA.peek());
     }
@@ -204,14 +228,14 @@ public class HomesForAll {
     lOrBSort.put("chaseBank", chaseBank);
     lOrBSort.put("lordEmurry", lordEmurry);
     lOrBSort.put("lordKasey", lordKasey);
-    System.out.println("BoA"+lOrBSort.get("boA"));
+    //System.out.println("BoA"+lOrBSort.get("boA"));
   }
   
   public void addTypeHT(Residence name) {
     addTypeLL(name);
     homeAptSort.put("homes", homes);
     homeAptSort.put("apts", apts);
-    System.out.println("homes"+homeAptSort.get("homes"));
+    //System.out.println("homes"+homeAptSort.get("homes"));
   }
   
   public void addStreetHT(Residence name) {
@@ -220,24 +244,52 @@ public class HomesForAll {
     addressSort.put("streetB", streetB);
     addressSort.put("streetC", streetC);
     addressSort.put("streetD", streetD);
-    System.out.println("SA"+ addressSort.get("streetB"));
+    //System.out.println("SA"+ addressSort.get("streetB"));
   }
   
   public void addDangerHT(Residence name) {
     addDangerLL(name);
     dangerSort.put("inDanger", inDanger);
     dangerSort.put("notDanger", notDanger);
-    System.out.println("danger" + dangerSort.get("inDanger"));
+    //System.out.println("danger" + dangerSort.get("inDanger"));
   }
   
-  //adds the residence info into the hashtables in a concise manner
+  //adds one residence info into the hashtables in a concise manner
   public void addAllInfo(Residence name) {
     addBanksLordsHT(name);
     addTypeHT(name);
     addStreetHT(name);
     addDangerHT(name);
   }
+ 
+  //need to make it check for copies
+  public void addLL () {
+    LinkedList copy = new LinkedList();
+    copy = database;
+    while (copy.size() > 0) {
+      //Residence temp = (Residence) copy.poll();
+      addAllInfo((Residence)copy.pop());
+      
+    }
+    System.out.println(homes);
+  }
   
+  //All the finder methods
+  public LinkedList findBanks (String bank) {
+    return lOrBSort.get(bank);
+  }
+  
+  public LinkedList findType (String residences) {
+    return homeAptSort.get(residences);
+  }
+  
+  public LinkedList findAddress (String street) {
+   return addressSort.get(street);
+  }
+  
+  public LinkedList findDanger (String danger) {
+   return dangerSort.get(danger); 
+  }
   
   
   /**
@@ -246,12 +298,14 @@ public class HomesForAll {
    * @return Returns HomesForAll.
    */
   public String toString() {
+    LinkedList copy = new LinkedList<Residence>();
+    copy = database;
     String s = "";
-    s += "Current size of database: (3) " + database.size() + "\n";
-    s += "First item from popping: \n" + database.pop() + "\nYayyy :D";
+    s += "Current size of database: (3) " + copy.size() + "\n";
+    s += "First item from popping: \n" + copy.pop() + "\nYayyy :D";
     s += "\nNow go through rest of thingy\n\n";
-    while (database.size() > 0) {
-      s += "Size: " + database.size() + "\n" + database.pop() + "\n";
+    while (copy.size() > 0) {
+      s += "Size: " + copy.size() + "\n" + copy.pop() + "\n";
       
     }
     return s;
@@ -261,31 +315,87 @@ public class HomesForAll {
   //--------------------------------------Main Method
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   public static void main (String[] args) {
-    HomesForAll test = new HomesForAll();
-    Residence person1 = new Residence("MSit", "apt", "boA", 1000, 1, 1, "streetB", true);
-    Residence person2 = new Residence("Celia", "home", "boA", 2000, 1, 2, "streetB", true);
+//    HomesForAll test = new HomesForAll();
+//    Residence person1 = new Residence("Angela", "home", "boA", 900, 0, 0, "streetA", true);
+//    Residence person2 = new Residence("Shirley", "home", "boA", 1000, 0, 1, "streetA", false);
+//    Residence person3 = new Residence("Celia", "apt", "wellsFargo", 1100, 0, 2, "streetA", true);
+//    Residence person4 = new Residence("Maria", "apt", "wellsFargo", 1200, 1, 1, "streetB", false);
+//    Residence person5 = new Residence("Kendall", "apt", "chaseBank", 1300, 1, 2, "streetB", true);
+//    Residence person6 = new Residence("Rebecca", "home", "chaseBank", 1400, 1, 3, "streetB", false);
+//    Residence person7 = new Residence("Savitri", "home", "lordEmurry", 1500, 2, 1, "streetC", true);
+//    Residence person8 = new Residence("Ro", "apt", "lordEmurry", 1600, 2, 2, "streetC", false);
+//    Residence person9 = new Residence("Alice", "apt", "lordKasey", 1700, 3, 1, "streetD", true);
+//    Residence person10 = new Residence("Alisha", "home", "lordKasey", 1800, 3, 2, "streetD", false);
     
 //    test.addBanksLordsLL(person1);
 //    test.addBanksLordsLL(person2);
-    test.addAllInfo(person2);
+//    test.database.add(person1);
+//    test.database.add(person2);
+//    test.database.add(person3);
+//    test.database.add(person4);
+//    test.database.add(person5);
+//    test.database.add(person6);
+//    test.database.add(person7);
+//    test.database.add(person8);
+//    test.database.add(person9);
+//    test.database.add(person10);
+//    test.addLL();
+//    System.out.println("Banks-----------------");
+//    System.out.println("Boa"+test.findBanks("boA"));
+//    System.out.println("wellsFargo"+test.findBanks("wellsFargo"));
+//    System.out.println("chase"+test.findBanks("chaseBank"));
+//    System.out.println("lordEmurry"+test.findBanks("lordEmurry"));
+//    System.out.println("lordKasey"+test.findBanks("lordKasey"));
+//    System.out.println("homes/Apt---------");
+//    System.out.println("homes"+test.findType("homes"));
+//    System.out.println("apts"+test.findType("apts"));
+//    System.out.println("address---------------");
+//    System.out.println("streetA"+test.findAddress("streetA"));
+//    System.out.println("streetB"+test.findAddress("streetB"));
+//    System.out.println("streetC"+test.findAddress("streetC"));
+//    System.out.println("streetD"+test.findAddress("streetD"));
+//    System.out.println("danger------------");
+//    System.out.println("inDanger"+test.findDanger("inDanger"));
+//    System.out.println("notDanger"+test.findDanger("notDanger"));
     
+    //System.out.println(test.boA);
+//    System.out.println(test.database.poll());
+//    test.addAllInfo(person3);
+//    test.addAllInfo(person2);
+//    
     
     
     System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
     
     System.out.println("Testing the second constructor method");
     HomesForAll test2 = new HomesForAll("testing.txt");
-    System.out.println(test2);
-    System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+    //System.out.println(test2);
+    test2.addLL();
+    //System.out.println(test2.database);
+
+    System.out.println("Banks-----------------");
+    System.out.println("Boa"+test2.findBanks("boA"));
+    System.out.println("wellsFargo"+test2.findBanks("wellsFargo"));
+    System.out.println("chase"+test2.findBanks("chaseBank"));
+    System.out.println("lordEmurry"+test2.findBanks("lordEmurry"));
+    System.out.println("lordKasey"+test2.findBanks("lordKasey"));
+//    System.out.println("homes/Apt---------");
+//    System.out.println("homes"+test2.findType("homes"));
+//    System.out.println("apts"+test2.findType("apts"));
+//    System.out.println("address---------------");
+//    System.out.println("streetA"+test2.findAddress("streetA"));
+//    System.out.println("streetB"+test2.findAddress("streetB"));
+//    System.out.println("streetC"+test2.findAddress("streetC"));
+//    System.out.println("streetD"+test2.findAddress("streetD"));
+//    System.out.println("danger------------");
+//    System.out.println("inDanger"+test2.findDanger("inDanger"));
+//    System.out.println("notDanger"+test2.findDanger("notDanger"));
+//    
+//    System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+  
     
-    //test.addBanks();
     
-    //what this tells me is... 
-    /* i need to individually go through the entire list and check for the characteristic
-     * add that to the linked list
-     * the hashtable only allows for quick searching & returning the linked list, 
-     * does not actually sort the items into the linked list...
-     * 
+     /*
      * so each find____ method should first call upon a helper method that 
      * both initializes and then sorts the database items into linkedlists that 
      * the hash table then will sort into
