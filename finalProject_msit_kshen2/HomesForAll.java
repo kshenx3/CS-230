@@ -20,10 +20,24 @@ public class HomesForAll {
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   //-------------------------------Instance Variables
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  private LinkedList searchRes, database;
   private File output;
   private int count;
-  private Hashtable<String, LinkedList> sortingHat; /*kekeke*/
+  
+  //MSit: Example linkedlist categories.  Used for testing purposes only
+  //LinkedLists
+  private LinkedList<Residence> database, homes, apts, boA, wellsFargo, chaseBank, lordEmurry, lordKasey,
+    streetA, streetB, streetC, streetD, inDanger, notDanger;
+  
+  //Sorting hashtables
+  private Hashtable<Boolean, LinkedList> dangerSort; //sorts by isInDanger
+  private Hashtable<String, LinkedList> lOrBSort; //sorts by landlord or bank
+  private Hashtable<String, LinkedList> residentSort; //sorts by resident
+  private Hashtable<String, LinkedList> addressSort;  //sorts by String address
+  private Hashtable<Integer, LinkedList> rentSort; //sorts by mortgage or rent
+  
+  //Kasey's testing LL and HT
+  private LinkedList searchRes;
+  private Hashtable<String, LinkedList> sortingHat; /*kekeke*/ 
   
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   //------------------------------Constructor Methods
@@ -35,10 +49,39 @@ public class HomesForAll {
    */ 
   public HomesForAll() {
     count = 0;
-    sortingHat = new Hashtable<String, LinkedList>();
-    database = new LinkedList();
+    
+    //initializing sorting hashtables
+    this.dangerSort = new Hashtable<Boolean, LinkedList>();
+    this.lOrBSort = new Hashtable<String, LinkedList>();
+    this.residentSort = new Hashtable<String, LinkedList>();
+    this.addressSort = new Hashtable<String, LinkedList>();
+    this.rentSort = new Hashtable<Integer, LinkedList>();
+    
+    //initalizing all  LLs
+    //MasterLL
+    this.database = new LinkedList<Residence>();
+    //Residence types
+    this.homes = new LinkedList<Residence>();
+    this.apts = new LinkedList<Residence>();
+    //Landlords and Banks
+    this.boA = new LinkedList<Residence>();
+    this.wellsFargo = new LinkedList<Residence>();
+    this.chaseBank = new LinkedList<Residence>();
+    this.lordEmurry = new LinkedList<Residence>();
+    this.lordKasey = new LinkedList<Residence>();
+    //streets for addresses
+    this.streetA = new LinkedList<Residence>();
+    this.streetB = new LinkedList<Residence>();
+    this.streetC = new LinkedList<Residence>();
+    this.streetD = new LinkedList<Residence>();
+    //inDanger or not
+    this.inDanger = new LinkedList<Residence>();
+    this.notDanger = new LinkedList<Residence>();
+    
+    //Kasey's testers
+    this.sortingHat = new Hashtable<String, LinkedList>();
+    this.database = new LinkedList();
   }
-  
   
   /**
    * Creates a HomesForAll object with an input file that acts as the loaded database reference.
@@ -46,27 +89,67 @@ public class HomesForAll {
    * @param fileName Name of the database reference as a String
    */
   public HomesForAll(String fileName) {
-    //scanner in file, adds all info to a database (hashtable).
+    database = new LinkedList();
     
+    try {
+      Scanner scan = new Scanner(new File(fileName));
+      
+      while (scan.hasNext()) {
+        Residence res = new Residence(); //create empty Residence
+        
+        res.setResident(scan.nextLine());
+        res.setResType(scan.nextLine());
+        res.setBOrL(scan.nextLine());
+        
+        //need to convert nextLine Strings into Integers for the amt, xCoor, and yCoor
+        int a = Integer.parseInt(scan.nextLine());
+        res.setAmt(a);
+        int x = Integer.parseInt(scan.nextLine());
+        res.setXCoor(x);
+        int y = Integer.parseInt(scan.nextLine());
+        res.setYCoor(y);
+        
+        res.setAddress(scan.nextLine());
+        
+        //convert nextLine() String to boolean for isInDanger
+        boolean input = Boolean.parseBoolean(scan.nextLine());
+        res.setIsInDanger(input);
+        database.push(res);
+        
+        //System.out.println("New Residence!: \n" + res); /* for debugging purposes */
+      }
+      scan.close(); 
+      
+    } catch (FileNotFoundException error) {
+      System.out.println("File not found. Constructor failed. Error: " + error + "\n"); 
+    } catch (NoSuchElementException e) { //catches the case when the latter portion of data is missing
+      System.out.println("File is missing a line somewhere in data. Constructor failed. Info creation stopped. \nError: " + e + "\n");
+    } catch (NumberFormatException mew) { //catches the case where a line is missing somewhere in the middle
+      System.out.println("File is not formatted correctly; missing line somewhere. Info creation stopped.\nError: " + mew + "\n");
+    }
   }
   
-
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   //---------------------------------Instance Methods
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   
   public void saveSearchRes(String newFileName) {
     try {
-   PrintWriter writer = new PrintWriter(new File(newFileName));
-   //need to go through the searchRes LinkedList and print out each...
-   //LinkedLIst needs to be type... fuck. needs to be type Apt or Home... 
-   //maybe we actually do need a parent/child relationship...
-   writer.println("");
-   
-   writer.close();
-  } catch (IOException ex) {
-   System.out.println("***(T)ERROR*** The file couldn't be written: " + ex);
+      PrintWriter writer = new PrintWriter(new File(newFileName));
+      //need to go through the searchRes LinkedList and print out each...
+      //LinkedLIst needs to be type... fuck. needs to be type Apt or Home... 
+      //maybe we actually do need a parent/child relationship...
+      writer.println("");
+      
+      writer.close();
+    } catch (IOException ex) {
+      System.out.println("***(T)ERROR*** The file couldn't be written: " + ex);
+    }
   }
+  
+  //adds residence to masterLL
+  public void addResidence(Residence name) {
+    
   }
   
   
@@ -77,7 +160,15 @@ public class HomesForAll {
    * @return Returns HomesForAll.
    */
   public String toString() {
-    return "";
+    String s = "";
+    s += "Current size of database: (3) " + database.size() + "\n";
+    s += "First item from popping: \n" + database.pop() + "\nYayyy :D";
+    s += "\nNow go through rest of thingy\n\n";
+    while (database.size() > 0) {
+      s += "Size: " + database.size() + "\n" + database.pop() + "\n";
+      
+    }
+    return s;
   }
   
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -92,6 +183,12 @@ public class HomesForAll {
     test.sortingHat.put("Argh", test.database);
     
     System.out.println(test.sortingHat.get("Meow"));
+    System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+    
+    System.out.println("Testing the second constructor method");
+    HomesForAll test2 = new HomesForAll("testing.txt");
+    System.out.println(test2);
+    
     
     //what this tells me is... 
     /* i need to individually go through the entire list and check for the characteristic
