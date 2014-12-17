@@ -23,21 +23,17 @@ public class HomesForAll {
   private File output;
   private int count;
   
-  //MSit: Example linkedlist categories.  Used for testing purposes only
   //LinkedLists
   private LinkedList<Residence> database, homes, apts, boA, wellsFargo, chaseBank, lordEmurry, lordKasey,
     streetA, streetB, streetC, streetD, inDanger, notDanger;
   
   //Sorting hashtables
-  private Hashtable<Boolean, LinkedList> dangerSort; //sorts by isInDanger
+  //private Hashtable<String, LinkedList> residentSort; //sorts by resident
+  private Hashtable<String, LinkedList> homeAptSort; //sorts by either home or apt
   private Hashtable<String, LinkedList> lOrBSort; //sorts by landlord or bank
-  private Hashtable<String, LinkedList> residentSort; //sorts by resident
-  private Hashtable<String, LinkedList> addressSort;  //sorts by String address
-  private Hashtable<Integer, LinkedList> rentSort; //sorts by mortgage or rent
-  
-  //Kasey's testing LL and HT
-  private LinkedList searchRes;
-  private Hashtable<String, LinkedList> sortingHat; /*kekeke*/ 
+  private Hashtable<String, LinkedList> addressSort;  //sorts by String address 
+  private Hashtable<String, LinkedList> dangerSort; //sorts by isInDanger
+  // private Hashtable<Integer, LinkedList> rentSort; //sorts by mortgage or rent
   
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   //------------------------------Constructor Methods
@@ -49,13 +45,14 @@ public class HomesForAll {
    */ 
   public HomesForAll() {
     count = 0;
-
+    
     //initializing sorting hashtables
-    this.dangerSort = new Hashtable<Boolean, LinkedList>();
-    this.lOrBSort = new Hashtable<String, LinkedList>();
-    this.residentSort = new Hashtable<String, LinkedList>();
+    //this.residentSort = new Hashtable<String, LinkedList>();
+    this.homeAptSort = new Hashtable<String,LinkedList>();
+    this.lOrBSort = new Hashtable<String, LinkedList>(); 
     this.addressSort = new Hashtable<String, LinkedList>();
-    this.rentSort = new Hashtable<Integer, LinkedList>();
+    this.dangerSort = new Hashtable<String, LinkedList>();
+    //this.rentSort = new Hashtable<Integer, LinkedList>();
     
     //initalizing all  LLs
     //MasterLL
@@ -78,9 +75,6 @@ public class HomesForAll {
     this.inDanger = new LinkedList<Residence>();
     this.notDanger = new LinkedList<Residence>();
     
-    //Kasey's testers
-    this.sortingHat = new Hashtable<String, LinkedList>();
-    this.database = new LinkedList();
   }
   
   /**
@@ -147,9 +141,101 @@ public class HomesForAll {
     }
   }
   
-  //adds residence to masterLL
-  public void addResidence(Residence name) {
-    
+  //add residences to the appropriate LL
+  public void addBanksLordsLL (Residence name) {
+    if (name.getBOrL() == "boA" && !boA.contains(name)) {
+      boA.add(name); 
+      //System.out.println("BOA" + boA.peek());
+    }
+    if (name.getBOrL() == "wellsFargo" && !wellsFargo.contains(name)) {
+      wellsFargo.add(name); 
+      //System.out.println("WF" + wellsFargo.peek());
+    }
+    if (name.getBOrL() == "chaseBank" && !chaseBank.contains(name)) {
+      chaseBank.add(name); 
+      //System.out.println("CB" + chaseBank.peek());
+    }
+    if (name.getBOrL() == "lordEmurry" && !lordEmurry.contains(name)) {
+      lordEmurry.add(name); 
+      //System.out.println("LE" + lordEmurry.peek());
+    }
+    else if (name.getBOrL() == "lordKasey" && !lordKasey.contains(name)) {
+      lordKasey.add(name); 
+      //System.out.println("LK" + lordKasey.peek());
+    }
+  }
+  
+  public void addTypeLL(Residence name) {
+    if (name.getResType() == "home" &&!homes.contains(name)) {
+      homes.add(name); 
+    } else if (name.getResType() == "apt" && !apts.contains(name)) {
+      apts.add(name); 
+    }
+  }
+  
+  public void addStreetLL(Residence name) {
+    if (name.getAddress() == "streetA" && !streetA.contains(name)) {
+      streetA.add(name); 
+    }
+    if (name.getAddress() == "streetB" && !streetB.contains(name)) {
+      streetB.add(name); 
+    }
+    if (name.getAddress() == "streetC" && !streetC.contains(name)) {
+      streetC.add(name); 
+    }
+    else if (name.getAddress() == "streetD" && !streetC.contains(name)) {
+      streetD.add(name);
+    }
+  }
+  
+  public void addDangerLL(Residence name) {
+    if (name.getIsInDanger() == true && !inDanger.contains(name)) {
+      inDanger.add(name);
+    } else if (name.getIsInDanger() == false && !notDanger.contains(name)) {
+      notDanger.add(name); 
+    }
+  }
+  
+  //adds the linkedLists to the HashTable
+  public void addBanksLordsHT (Residence name) {
+    addBanksLordsLL(name);
+    lOrBSort.put("boA", boA);
+    lOrBSort.put("wellsFargo", wellsFargo);
+    lOrBSort.put("chaseBank", chaseBank);
+    lOrBSort.put("lordEmurry", lordEmurry);
+    lOrBSort.put("lordKasey", lordKasey);
+    System.out.println("BoA"+lOrBSort.get("boA"));
+  }
+  
+  public void addTypeHT(Residence name) {
+    addTypeLL(name);
+    homeAptSort.put("homes", homes);
+    homeAptSort.put("apts", apts);
+    System.out.println("homes"+homeAptSort.get("homes"));
+  }
+  
+  public void addStreetHT(Residence name) {
+    addStreetLL(name);
+    addressSort.put("streetA", streetA);
+    addressSort.put("streetB", streetB);
+    addressSort.put("streetC", streetC);
+    addressSort.put("streetD", streetD);
+    System.out.println("SA"+ addressSort.get("streetB"));
+  }
+  
+  public void addDangerHT(Residence name) {
+    addDangerLL(name);
+    dangerSort.put("inDanger", inDanger);
+    dangerSort.put("notDanger", notDanger);
+    System.out.println("danger" + dangerSort.get("inDanger"));
+  }
+  
+  //adds the residence info into the hashtables in a concise manner
+  public void addAllInfo(Residence name) {
+    addBanksLordsHT(name);
+    addTypeHT(name);
+    addStreetHT(name);
+    addDangerHT(name);
   }
   
   
@@ -176,18 +262,23 @@ public class HomesForAll {
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   public static void main (String[] args) {
     HomesForAll test = new HomesForAll();
+    Residence person1 = new Residence("MSit", "apt", "boA", 1000, 1, 1, "streetB", true);
+    Residence person2 = new Residence("Celia", "home", "boA", 2000, 1, 2, "streetB", true);
     
-    test.sortingHat.put("Meow", test.database);
-    test.database.push("Meow");
-    test.database.push("Argh");
-    test.sortingHat.put("Argh", test.database);
+//    test.addBanksLordsLL(person1);
+//    test.addBanksLordsLL(person2);
+    test.addAllInfo(person2);
     
-    System.out.println(test.sortingHat.get("Meow"));
+    
+    
     System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
     
     System.out.println("Testing the second constructor method");
     HomesForAll test2 = new HomesForAll("testing.txt");
     System.out.println(test2);
+    System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+    
+    //test.addBanks();
     
     //what this tells me is... 
     /* i need to individually go through the entire list and check for the characteristic
@@ -202,12 +293,6 @@ public class HomesForAll {
      * the "search"
      * 
      */
-    
-    //also need to find a way to distinguish between Homes & Apartments when going through a list of them
-    //** my soln: create a method in both classes that return a String "type" that is final
-    //** so that we can check if .equals? 
-    //** OR 
-    //** we can assign a final integer that is symbolic of either home or apartment
     
   }
 }
