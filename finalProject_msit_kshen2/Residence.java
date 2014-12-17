@@ -124,6 +124,10 @@ public class Residence {
     return resType;
   }
   
+  public String getAddress() {
+   return address; 
+  }
+  
   
   public void setResident(String name) {
     resident = name;
