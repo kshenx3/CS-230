@@ -127,6 +127,24 @@ public class Residence {
   }
   
   /**
+   * Returns the x coordinate of the Residence
+   * 
+   * @return yCoor instance variable
+   */
+  public int getXCoor() {
+    return xCoor;
+  }
+  
+  /**
+   * Returns the y coordinate of the Residence
+   * 
+   * @return yCoor instance variable
+   */
+  public int getYCoor() {
+    return yCoor;
+  }
+  
+  /**
    * Sets the Resident name to the string input
    * 
    * @param name the new Resident name
