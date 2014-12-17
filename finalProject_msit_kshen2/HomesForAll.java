@@ -165,30 +165,41 @@ public class HomesForAll {
     }
   }
   
-  //add residences to the appropriate LL
+  
+  /**
+   * adds residences to the appropriate linked lists
+   * 
+   * @param name takes in a Residence
+   */
   public void addBanksLordsLL (Residence name) {
     if (name.getBOrL() == "boA" && boA.contains(name)==false) {
       boA.add(name); 
-      //System.out.println("BOA" + boA.peek());
+      //System.out.println("BOA" + boA.peek()); /*testing purpose*/
     }
     if (name.getBOrL() == "wellsFargo" && !wellsFargo.contains(name)) {
       wellsFargo.add(name); 
-      //System.out.println("WF" + wellsFargo.peek());
+      //System.out.println("WF" + wellsFargo.peek()); /*testing purpose*/
     }
     if (name.getBOrL() == "chaseBank" && !chaseBank.contains(name)) {
       chaseBank.add(name); 
-      //System.out.println("CB" + chaseBank.peek());
+      //System.out.println("CB" + chaseBank.peek()); /*testing purpose*/
     }
     if (name.getBOrL() == "lordEmurry" && !lordEmurry.contains(name)) {
       lordEmurry.add(name); 
-      //System.out.println("LE" + lordEmurry.peek());
+      //System.out.println("LE" + lordEmurry.peek()); /*testing purpose*/
     }
     else if (name.getBOrL() == "lordKasey" && !lordKasey.contains(name)) {
       lordKasey.add(name); 
-      //System.out.println("LK" + lordKasey.peek());
+      //System.out.println("LK" + lordKasey.peek()); /*testing purpose*/
     }
   }
   
+  /**
+   * adds specifically the parameter Residence to one of 2 linked lists:
+   * either the homes list or the apartment list based on its resType
+   * 
+   * @param name takes in a Residence object
+   */
   public void addTypeLL(Residence name) {
     if (name.getResType() == "home" &&!homes.contains(name)) {
       homes.add(name); 
@@ -197,6 +208,13 @@ public class HomesForAll {
     }
   }
   
+  
+  /**
+   * adds the specific Residence paramter to the correct street linked
+   * list (there are 4 possible ones)
+   * 
+   * @param name takes in a Residence object 
+   */
   public void addStreetLL(Residence name) {
     if (name.getAddress() == "streetA" && !streetA.contains(name)) {
       streetA.add(name); 
@@ -212,6 +230,13 @@ public class HomesForAll {
     }
   }
   
+  
+  /**
+   * adds the specific Residence parameter into the proper linked list of two
+   * kinds: 1) isInDanger == true, or 2) isInDanger == false.
+   * 
+   * @param name takes in a Residence object
+   */
   public void addDangerLL(Residence name) {
     if (name.getIsInDanger() == true && !inDanger.contains(name)) {
       inDanger.add(name);
@@ -220,7 +245,16 @@ public class HomesForAll {
     }
   }
   
-  //adds the linkedLists to the HashTable
+  
+  
+  /**
+   * this method adds the specific banks and landlord linked lists
+   * to the hashtables; it specifies the keys to be used and then the
+   * linked list values for each respective key; it calls upon
+   * addBanksLordsLL() to first add the parameter to the correct LL
+   * 
+   * @param name takes in a Residence object
+   */
   public void addBanksLordsHT (Residence name) {
     addBanksLordsLL(name);
     lOrBSort.put("boA", boA);
@@ -228,33 +262,62 @@ public class HomesForAll {
     lOrBSort.put("chaseBank", chaseBank);
     lOrBSort.put("lordEmurry", lordEmurry);
     lOrBSort.put("lordKasey", lordKasey);
-    //System.out.println("BoA"+lOrBSort.get("boA"));
+    //System.out.println("BoA"+lOrBSort.get("boA")); /*testing purposes*/
   }
   
+  /**
+   * this method sorts the input Residence into its correct linked list
+   * and then constructs the hashtable for the type of residence, with the
+   * keys being either "homes" or "apts" pointing to their respective linked lists
+   * 
+   * @param name takes in a Residence object
+   */
   public void addTypeHT(Residence name) {
     addTypeLL(name);
     homeAptSort.put("homes", homes);
     homeAptSort.put("apts", apts);
-    //System.out.println("homes"+homeAptSort.get("homes"));
+    //System.out.println("homes"+homeAptSort.get("homes")); /*testing purposes*/
   }
   
+  /**
+   * this method sorts the specific Residence parameter into its
+   * proper address linked list and then constructs the hashtable with keys
+   * for each street and then the linked list containing Residences on that
+   * street
+   * 
+   * @param name takes in a Residence object
+   */
   public void addStreetHT(Residence name) {
     addStreetLL(name);
     addressSort.put("streetA", streetA);
     addressSort.put("streetB", streetB);
     addressSort.put("streetC", streetC);
     addressSort.put("streetD", streetD);
-    //System.out.println("SA"+ addressSort.get("streetB"));
+    //System.out.println("SA"+ addressSort.get("streetB")); /*testing purposes*/
   }
   
+  /**
+   * Method sorts the Residence parameter based on its status: in danger
+   * or not. Adds it to the correct linked list and then constructs a
+   * hashtable that contains the linked lists with the keys being either 
+   * 'inDanger' or 'notDanger'
+   * 
+   * @param name takes in a Residence object
+   */
   public void addDangerHT(Residence name) {
     addDangerLL(name);
     dangerSort.put("inDanger", inDanger);
     dangerSort.put("notDanger", notDanger);
-    //System.out.println("danger" + dangerSort.get("inDanger"));
+    //System.out.println("danger" + dangerSort.get("inDanger")); /*testing purposes*/
   }
   
-  //adds one residence info into the hashtables in a concise manner
+  
+  /**
+   * This method adds one Residence object's info into all of the Hashtables
+   * in a concise manner
+   * 
+   * @param name takes in a Residence object
+   */
   public void addAllInfo(Residence name) {
     addBanksLordsHT(name);
     addTypeHT(name);
@@ -262,31 +325,65 @@ public class HomesForAll {
     addDangerHT(name);
   }
  
-  //need to make it check for copies
+  
+  /**
+   * Creates a copy of the "master" database linked list and then destroys
+   * it to add all of the read-in Residence objects to sort.
+   * 
+   * As of right now, it does not exactly check for copies (repeats).
+   */
   public void addLL () {
     LinkedList copy = new LinkedList();
     copy = database;
     while (copy.size() > 0) {
       //Residence temp = (Residence) copy.poll();
       addAllInfo((Residence)copy.pop());
-      
     }
-    System.out.println(homes);
+    
+    //System.out.println(homes); /*testing purposes*/
   }
   
-  //All the finder methods
+  
+  //All the finder methods -- the methods that look through the Hashtables
+  //and return the correct linked list
+  /**
+   * Takes the parameter as the key for the hashtable and returns the 
+   * LinkedList value
+   * 
+   * @param bank String input is the key
+   */
   public LinkedList findBanks (String bank) {
     return lOrBSort.get(bank);
   }
   
+  /**
+   * Takes the parameter as the key for the hashtable and returns the 
+   * LinkedList value
+   * 
+   * @param residence String input is the key
+   */
   public LinkedList findType (String residences) {
     return homeAptSort.get(residences);
   }
   
+  
+  /**
+   * Takes the parameter as the key for the hashtable and returns the 
+   * LinkedList value
+   * 
+   * @param street String input is the key
+   */
   public LinkedList findAddress (String street) {
    return addressSort.get(street);
   }
   
+  
+  /**
+   * Takes the parameter as the key for the hashtable and returns the 
+   * LinkedList value
+   * 
+   * @param danger String input is the key
+   */
   public LinkedList findDanger (String danger) {
    return dangerSort.get(danger); 
   }
@@ -301,12 +398,17 @@ public class HomesForAll {
     LinkedList copy = new LinkedList<Residence>();
     copy = database;
     String s = "";
-    s += "Current size of database: (3) " + copy.size() + "\n";
-    s += "First item from popping: \n" + copy.pop() + "\nYayyy :D";
-    s += "\nNow go through rest of thingy\n\n";
+    //Resident: name  Address  
+    //s += "Current size of database: (3) " + copy.size() + "\n";
+    //s += "First item from popping: \n" + copy.pop() + "\nYayyy :D";
+    //s += "\nNow go through rest of thingy\n\n";
     while (copy.size() > 0) {
-      s += "Size: " + copy.size() + "\n" + copy.pop() + "\n";
-      
+      //s += "Size: " + copy.size() + "\n" + copy.pop() + "\n";
+      Residence temp = (Residence)copy.pop();
+      s += "Resident: " + temp.getResident() + ", Type: " + temp.getResType() + ", Landlord/Bank: "
+        + temp.getBOrL() + ", Rent/Mortgage: " + temp.getAmount() + ", Address: " + temp.getAddress() 
+        + ", Status: ";
+      s += (temp.getIsInDanger()) ? "In Danger\n\n" : "Not in Danger\n\n";
     }
     return s;
   }
@@ -367,9 +469,10 @@ public class HomesForAll {
     
     System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
     
-    System.out.println("Testing the second constructor method");
+    System.out.println("Testing the second constructor method\n");
     HomesForAll test2 = new HomesForAll("testing.txt");
-    //System.out.println(test2);
+    System.out.println(test2);
+    System.out.println(test2.database);
     test2.addLL();
     //System.out.println(test2.database);
 
