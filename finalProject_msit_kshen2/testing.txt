@@ -1,24 +1,80 @@
-Corey Leob
-Apartment
-Emily Jin
+Angela Ai
+home
+boA
 900
-3
-4
-Spainnnnn Idk
-false
-Alice :D
-Home
-Bank of Wushu
-1200
-2
-2
-NYC 22~~ :D
-false
-Fishy Kins
-Home
-Triton Bank
-2996
-3 
-1
-Under the Seaaa
+0
+0
+streetA
 true
+Shirley Lu
+home
+boA
+1000
+0
+1
+streetA
+false
+Celia Honigberg
+apt
+wellsFargo
+1100
+0
+2
+streetA
+true
+Maria Acosta
+apt
+wellsFargo
+1200
+1
+1
+streetB
+false
+Kendall Frye
+apt
+chaseBank
+1300
+1
+2
+streetB
+true
+Rebecca Scanlon
+home
+chaseBank
+1400
+1
+3
+streetB
+false
+Savitri Restrepo
+home
+lordEmurry
+1500
+2
+1
+streetC
+true
+Ro Gao
+apt
+lordEmurry
+1600
+2
+2
+streetC
+false
+Alice Wong
+apt
+lordKasey
+1700
+3
+1
+streetD
+true
+Alisha Pegan
+home
+lordKasey
+1800
+3
+2
+streetD
+false
