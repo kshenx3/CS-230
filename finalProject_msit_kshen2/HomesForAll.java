@@ -49,7 +49,7 @@ public class HomesForAll {
    */ 
   public HomesForAll() {
     count = 0;
-    
+
     //initializing sorting hashtables
     this.dangerSort = new Hashtable<Boolean, LinkedList>();
     this.lOrBSort = new Hashtable<String, LinkedList>();
@@ -188,7 +188,6 @@ public class HomesForAll {
     System.out.println("Testing the second constructor method");
     HomesForAll test2 = new HomesForAll("testing.txt");
     System.out.println(test2);
-    
     
     //what this tells me is... 
     /* i need to individually go through the entire list and check for the characteristic
