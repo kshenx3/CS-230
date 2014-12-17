@@ -4,7 +4,7 @@
  * 
  * Michelle Sit & Kasey Shen
  * 
- * PURPOSE:
+ * PURPOSE: 
  * 
  */
 
@@ -26,6 +26,10 @@ public class Residence {
   final static String RESTYPE1 = "Home";
   final static String RESTYPE2 = "Apartment";
   
+  private int xCoor, yCoor;
+  private String address;
+  //private Vector<Integer> address; 
+  
   
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   //------------------------------Constructor Methods
@@ -39,9 +43,9 @@ public class Residence {
    * 
    */ 
   public Residence() {
-    resident = bOrL = resType = null;
+    resident = bOrL = resType = address = null;
     isInDanger = false;
-    amt = 0;
+    amt = xCoor = yCoor = 0;
     
   }
   
@@ -55,13 +59,16 @@ public class Residence {
    * @param currBOrl sets the current bank or landlord for bOrL
    * @param value sets amt of current rent or mortgage
    */
-  public Residence(boolean status, String currRes, String type, String currBOrL, int value) {
+  public Residence(String currRes, String type, String currBOrL, int value, int x, int y, String loc, boolean status) {
     isInDanger = status;
     resident = currRes;
     resType = type;
     bOrL = currBOrL;
     amt = value;
-    
+    //for the address part
+    xCoor = x;
+    yCoor = y;
+    address = loc;
   }
   
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -124,9 +131,9 @@ public class Residence {
   public String toString() {
     String s = "";
     s += "This is the Residence (type: " + resType + ") you created: \n";
-    s += "Resident: " + resident + "\nMortgage/Rent Value: " + amt + "\nBank/Landlord: " 
-      + bOrL + "\nStatus: " + isInDanger + "\n";
-    //s += "\nAddress: " + address;
+    s += "Resident: " + resident + "\nMortgage/Rent Value: " + amt 
+      + "\nBank/Landlord: " + bOrL;
+    s += "\nAddress: " + address + "\nStatus: " + isInDanger + "\n";
     return s;
   }
   
@@ -137,7 +144,7 @@ public class Residence {
     Residence mer = new Residence();
     System.out.println(mer);
     
-    Residence mer2 = new Residence(false, "Amy", Residence.RESTYPE1, "Bank of Gs", 1200);
+    Residence mer2 = new Residence("Amy", Residence.RESTYPE1, "Bank of Gs", 1200, 3, 2, "Ann Way", false);
     System.out.println(mer2);
     
     
