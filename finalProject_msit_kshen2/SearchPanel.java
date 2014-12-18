@@ -34,12 +34,14 @@ public class SearchPanel extends JPanel implements ItemListener {
   private HomesForAll hfa;
   
   //other instance variables to be used in the panel
-  private JButton searchButton1, searchButton2, searchButton3, searchButton4;
+  private JButton searchButton1, searchButton2, searchButton3, searchButton4, loadFile;
   private int listLen;
   private String sysOutPrint;
   private JLabel theList, statusLabel;
   private String[] box;
   private HomesForAll outputList;
+  private JTextField fileName;
+  private JComboBox bankBox, typeBox, addressBox, dangerBox;
   
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   //------------------------------Constructor Methods
@@ -64,13 +66,21 @@ public class SearchPanel extends JPanel implements ItemListener {
     JComboBox cb = new JComboBox(comboBoxItems);
     cb.setEditable(false);
     cb.addItemListener(this);
+    
+    fileName = new JTextField("Type file name here to load.");
+    loadFile = new JButton("Load File");
+    loadFile.addActionListener(new ButtonListener());
+    
+    comboBoxPane.add(fileName);
+    comboBoxPane.add(loadFile);
     comboBoxPane.add(cb);
     
     //BANKLORD card
     String[] banklordItems = {"Bank of America", "Wells Fargo", "Chase Bank", "Lord Emurry", "Lord Kasey"};
     JComboBox bankBox = new JComboBox(banklordItems);
+    //bankBox.addItem("Bank of America");
     bankBox.setEditable(false);
-    bankBox.addItemListener(this);
+//    bankBox.addItemListener(this);
     bankBox.addActionListener(new ComboBoxListener());
     
     //TYPE card
@@ -110,12 +120,6 @@ public class SearchPanel extends JPanel implements ItemListener {
     sysOutPrint = hfa.toString();
     theList = new JLabel(sysOutPrint);
     add(theList);
-    
-    //Adding ActionListeners to each
-    bankBox.addActionListener(new ComboBoxListener());
-    typeBox.addActionListener(new ComboBoxListener());
-    dangerBox.addActionListener(new ComboBoxListener());
-    addressBox.addActionListener(new ComboBoxListener());
     
     //Create the "cards".
     //card1 is adding the home
@@ -175,17 +179,64 @@ public class SearchPanel extends JPanel implements ItemListener {
   private class ButtonListener implements ActionListener {
     public void actionPerformed(ActionEvent event) {
       if (event.getSource() == searchButton1) {
-        System.out.println(outputList.findBanks("boA"));
-      }        
-      //sysOutPrint = hfa.toString();
-      //      for(int x=0; x<(listLen-1); x++) sysOutPrint += schoolInfo[x];
-      //     theList.setText(myGSList.toString()); //actually updates JLabel with string list
-      // bankBox.getSelectedItem();
-      //    String file =  
-      if(event.getSource() == searchButton2) {
-        System.out.println(outputList.findType("home"));
+        bankBox.getSelectedItem();
+        if (bankBox.getSelectedItem() == "Bank of America") {
+          outputList.findBanks("boA");
+        } if (bankBox.getSelectedItem() == "Wells Fargo") {
+          outputList.findBanks("wellsFargo");
+        } if (bankBox.getSelectedItem() == "Chase Bank") {
+          outputList.findBanks("chaseBank"); 
+        } if (bankBox.getSelectedItem() == "Lord Emurry") {
+          outputList.findBanks("lordEmurry"); 
+        } else if (bankBox.getSelectedItem() == "Lord Kasey") {
+          outputList.findBanks("lordKasey"); 
+        }
       }
+      if (event.getSource() == searchButton2) {
+        typeBox.getSelectedItem();
+        if (typeBox.getSelectedItem() == "House") {
+         outputList.findType("home"); 
+        } else if (typeBox.getSelectedItem() == "Apartment") {
+         outputList.findType("apt"); 
+        }
+      }
+      if (event.getSource() == searchButton3) {
+        addressBox.getSelectedItem();
+        if (addressBox.getSelectedItem() == "Street A") {
+         outputList.findAddress("streetA"); 
+        }if (addressBox.getSelectedItem() == "Street B") {
+         outputList.findAddress("streetB"); 
+        }
+        if (addressBox.getSelectedItem() == "Street C") {
+         outputList.findAddress("streetC"); 
+        }
+        else if (addressBox.getSelectedItem() == "Street D") {
+         outputList.findAddress("streetD"); 
+        }
+      }
+      else if (event.getSource() == searchButton4) {
+       dangerBox.getSelectedItem();
+       if (dangerBox.getSelectedItem() == "In Danger") {
+        outputList.findDanger("inDanger"); 
+       } else if (dangerBox.getSelectedItem() == "Not in Danger") {
+        outputList.findDanger("notDanger"); 
+       }
+      }
+        
+       
       
+    }
+    
+  }
+  //sysOutPrint = hfa.toString();
+  //      for(int x=0; x<(listLen-1); x++) sysOutPrint += schoolInfo[x];
+  //     theList.setText(myGSList.toString()); //actually updates JLabel with string list
+  // bankBox.getSelectedItem();
+  //    String file =  
+//      if(event.getSource() == searchButton2) {
+//        System.out.println(outputList.findType("home"));
+//      }
+  
 //      //first determine whether or not we need to load in a database, creating
 //      //a HFA from a file or else creating an empty one
 //      if (event.getSource() == loadFile) {
@@ -208,26 +259,24 @@ public class SearchPanel extends JPanel implements ItemListener {
 //        //System.out.println("MEW2");
 //      } else {
 //        
-      }
-    }
-    
-    
-    private class ComboBoxListener implements ActionListener {
-      public void actionPerformed(ActionEvent event) {
+  
+  
+  private class ComboBoxListener implements ActionListener {
+    public void actionPerformed(ActionEvent event) {
 //      String s = (String) cb.getSelectedItem();
 //      switch(s) {
 //        case "Bank of America":
 //          System.out.println("HI");
 //      }
-        
+      
 //      if (event.getStateChanged() == ItemEvent.SELECTED) {
 //        System.out.println("Changed!");
 //      }
-        
-        
-      }
+      
+      
     }
-    
+  }
+  
   
   
 }
