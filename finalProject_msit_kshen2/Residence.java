@@ -164,7 +164,7 @@ public class Residence {
     //resType gets either RESTYPE1 or RESTYPE2 depending on whether or not the 
     //string parameter fits in the required pattern (either 'home' or 'apt')
     //otherwise sets as null
-    resType = (s.equals("home")) ? RESTYPE1 : (s.equals("apt")) ? RESTYPE2 : null;  
+    resType = (s.equals("home")) ? RESTYPE1 : (s.equals("apt") || s.equals("apartment")) ? RESTYPE2 : null;  
   }
   
   /**
@@ -244,7 +244,7 @@ public class Residence {
     Residence mer = new Residence();
     System.out.println(mer);
     
-    Residence mer2 = new Residence("Amy", Residence.RESTYPE1, "Bank of Gs", 1200, 3, 2, "Ann Way", false);
+    Residence mer2 = new Residence("Amy", "home", "chase", 1200, 3, 2, "Ann Way", false);
     System.out.println(mer2);
     
     
