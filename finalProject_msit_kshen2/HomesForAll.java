@@ -155,7 +155,7 @@ public class HomesForAll implements HomesForAllInterface {
         //convert nextLine() String to boolean for isInDanger
         boolean input = Boolean.parseBoolean(scan.nextLine());
         res.setIsInDanger(input);
-        database.push(res);
+        database.add(res);
         
         addresses[x][y] = res;
         //System.out.println("New Residence!: \n" + res);  /*debugging purposes */
@@ -201,6 +201,7 @@ public class HomesForAll implements HomesForAllInterface {
       for (int i = 0; i<count; i++) {
         Residence r = new Residence();
         r = database.get(i); //get(i) returns the Residence at index i
+        
         writer.println(r.getResident()); //print out each variable
         writer.println(r.getResType()); //in proper order
         writer.println(r.getBOrL());
@@ -208,7 +209,12 @@ public class HomesForAll implements HomesForAllInterface {
         writer.println(r.getXCoor());
         writer.println(r.getYCoor());
         writer.println(r.getAddress());
-        writer.println(r.getIsInDanger());
+        
+        if(i == count-1) {
+          writer.print(r.getIsInDanger());
+        } else {
+          writer.println(r.getIsInDanger());
+        }
       }
       writer.close();
       
@@ -241,7 +247,7 @@ public class HomesForAll implements HomesForAllInterface {
       lordKasey.add(name); 
       //System.out.println("LK" + lordKasey.peek()); /*testing purpose*/
     } else {
-      System.out.println("Something went wrong in addBanksLordsLL()");
+      System.out.println("Something went wrong in addBanksLordsLL() OR Duplicate");
     }
   }
   
@@ -252,12 +258,12 @@ public class HomesForAll implements HomesForAllInterface {
    * @param name takes in a Residence object
    */
   public void addTypeLL(Residence name) {
-    if (name.getResType().equals("home") &&!homes.contains(name)) {
+    if (name.getResType().equalsIgnoreCase("home") &&!homes.contains(name)) {
       homes.add(name); 
-    } else if (name.getResType().equals("apt") && !apts.contains(name)) {
+    } else if ((name.getResType().equalsIgnoreCase("apt") || name.getResType().equalsIgnoreCase("apartment")) && !apts.contains(name)) {
       apts.add(name); 
     } else {
-      System.out.println("Something went wrong in addTypeLL()");
+      System.out.println("Something went wrong in addTypeLL() OR Duplicate");
     }
   }
   
@@ -280,7 +286,7 @@ public class HomesForAll implements HomesForAllInterface {
     } else if (name.getAddress().equals("streetD") && !streetC.contains(name)) {
       streetD.add(name);
     } else {
-      System.out.println("Something went wrong in addStreetLL()");
+      System.out.println("Something went wrong in addStreetLL() OR Duplicate");
     }
   }
   
@@ -311,7 +317,7 @@ public class HomesForAll implements HomesForAllInterface {
    * @param name takes in a Residence object
    */
   public void addBanksLordsHT (Residence name) {
-    //addBanksLordsLL(name); //calls on method to sort into proper linked list
+    addBanksLordsLL(name); //calls on method to sort into proper linked list
     lOrBSort.put("boA", boA);
     lOrBSort.put("wellsFargo", wellsFargo);
     lOrBSort.put("chaseBank", chaseBank);
@@ -328,7 +334,7 @@ public class HomesForAll implements HomesForAllInterface {
    * @param name takes in a Residence object
    */
   public void addTypeHT(Residence name) {
-    //addTypeLL(name);
+    addTypeLL(name);
     homeAptSort.put("homes", homes);
     homeAptSort.put("apts", apts);
     //System.out.println("homes"+homeAptSort.get("homes")); /*testing purposes*/
@@ -343,7 +349,7 @@ public class HomesForAll implements HomesForAllInterface {
    * @param name takes in a Residence object
    */
   public void addStreetHT(Residence name) {
-    //addStreetLL(name);
+    addStreetLL(name);
     addressSort.put("streetA", streetA);
     addressSort.put("streetB", streetB);
     addressSort.put("streetC", streetC);
@@ -360,7 +366,7 @@ public class HomesForAll implements HomesForAllInterface {
    * @param name takes in a Residence object
    */
   public void addDangerHT(Residence name) {
-    //addDangerLL(name);
+    addDangerLL(name);
     dangerSort.put("inDanger", inDanger);
     dangerSort.put("notDanger", notDanger);
     //System.out.println("danger" + dangerSort.get("inDanger")); /*testing purposes*/
@@ -374,16 +380,16 @@ public class HomesForAll implements HomesForAllInterface {
    * @param name takes in a Residence object
    */
   public void addAllInfo(Residence name) {
-    addToDatabase(name);
-//    addBanksLordsHT(name);
-//    addTypeHT(name);
-//    addStreetHT(name);
-//    addDangerHT(name);
+    if (!database.contains(name)){
+      addToDatabase(name);
+    } else {
+      System.out.println("Error adding to database --Possible duplicate; addAllInfo");
+    }
     
-    addBanksLordsLL(name);
-    addTypeLL(name);
-    addStreetLL(name);
-    addDangerLL(name);
+    addBanksLordsHT(name);
+    addTypeHT(name);
+    addStreetHT(name);
+    addDangerHT(name);
     
     addresses[name.getXCoor()][name.getYCoor()] = name;
   }
@@ -395,7 +401,11 @@ public class HomesForAll implements HomesForAllInterface {
    * @param name new Residence object that is assumed to not be in database 
    */
   public void addToDatabase(Residence name) {
-    database.add(name);
+//    if (database.contains(name)){
+      database.add(name);
+//    } else {
+//      System.out.println("Error adding to database. Possible duplicate");
+//    }
   }
   
   
@@ -404,10 +414,14 @@ public class HomesForAll implements HomesForAllInterface {
    * Creates a copy of the "master" database linked list and then destroys
    * it to add all of the read-in Residence objects to sorted Linked Lists
    * 
-   * As of right now, it does not exactly check for copies (repeats).
+   * The check for copies comes from calling on the other add methods (which
+   * are called from addAllInfo()).
+   * Technically, should not be necessary to use because from constructor
+   * alone, we already add all of files from being read-in to the database. 
+   * 
    */
   public void addLL () {
-    LinkedList<Residence> copy = new LinkedList<Residence>();
+    //LinkedList<Residence> copy = new LinkedList<Residence>();
     //copy = database;
     
     int count = database.size();
@@ -415,7 +429,8 @@ public class HomesForAll implements HomesForAllInterface {
     for(int i = 0; i < count; i++) {  
       //Residence temp = (Residence) copy.poll();
       Residence temp  = database.get(i);
-      addAllInfo(temp);
+      addAllInfo(temp);  
+      //System.out.println(i); /*debugging purposes*/
     }
     //System.out.println(homes); /*testing purposes*/
   }
@@ -512,6 +527,7 @@ public class HomesForAll implements HomesForAllInterface {
   //--------------------------------------Main Method
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   public static void main (String[] args) {
+//    System.out.println("Testing the first constructor method\n");
 //    HomesForAll test = new HomesForAll();
 //    Residence person1 = new Residence("Angela", "home", "boA", 900, 0, 0, "streetA", true);
 //    Residence person2 = new Residence("Shirley", "home", "boA", 1000, 0, 1, "streetA", false);
@@ -567,58 +583,58 @@ public class HomesForAll implements HomesForAllInterface {
     System.out.println("Testing the second constructor method\n");
     HomesForAll test2 = new HomesForAll("testing.txt");
     System.out.println("test2~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-    System.out.println(test2); //printed out check
+    System.out.println(test2);
     
-    System.out.println("test2database~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-    System.out.println(test2.database); 
-//    
-    System.out.println("addLL~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-    test2.addLL(); //FIGURE OUT WHAT THIS SHOULD BE DOING -- should be goin through database
-    //and adding all of the residences to the proper linked lists....
+    //System.out.println("test2database~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+    //System.out.println(test2.database); 
     
-//    
-//    System.out.println("test2database~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-//    System.out.println(test2.database); 
+//    System.out.println("addLL~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+//    test2.addLL(); // -- should be goin through database
+    //and adding all of the residences to the proper linked lists.... but only when its
+    //necessary; a constructed HFA from a text file does not need this step; ex: will print 
+    //out all of the "errors" from repeats
     
-    System.out.println("Banks-----------------");
-    System.out.println("Boa\n"+test2.findBanks("boA"));
-    System.out.println("wellsFargo\n"+test2.findBanks("wellsFargo"));
-    System.out.println("chase\n"+test2.findBanks("chaseBank"));
-    System.out.println("lordEmurry\n"+test2.findBanks("lordEmurry"));
-    System.out.println("lordKasey\n"+test2.findBanks("lordKasey"));
-    System.out.println("\nhomes/Apt---------");
-    System.out.println("homes\n"+test2.findType("homes"));
-    System.out.println("apts\n"+test2.findType("apts"));
-    System.out.println("\naddress---------------");
-    System.out.println("streetA\n"+test2.findAddress("streetA"));
-    System.out.println("streetB\n"+test2.findAddress("streetB"));
-    System.out.println("streetC\n"+test2.findAddress("streetC"));
-    System.out.println("streetD\n"+test2.findAddress("streetD"));
-    System.out.println("\ndanger------------");
-    System.out.println("inDanger\n"+test2.findDanger("inDanger"));
-    System.out.println("notDanger\n"+test2.findDanger("notDanger"));
+//    System.out.println(test2);
     
-    System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+    //System.out.println("test2database~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+    //System.out.println(test2.database); 
+
+//    System.out.println(test2); /*DEBUGGING*/
+//    System.out.println("test2database AFTER toString to check database still there~~~~~~~\n");
+//    System.out.println(test2.database);
+//    System.out.println(test2.database.size()); /*end DEBUGGING*/
     
+//    System.out.println("Banks-----------------");
+//    System.out.println("Boa\n"+test2.findBanks("boA"));
+//    System.out.println("wellsFargo\n"+test2.findBanks("wellsFargo"));
+//    System.out.println("chase\n"+test2.findBanks("chaseBank"));
+//    System.out.println("lordEmurry\n"+test2.findBanks("lordEmurry"));
+//    System.out.println("lordKasey\n"+test2.findBanks("lordKasey"));
+//    System.out.println("\nhomes/Apt---------");
+//    System.out.println("homes\n"+test2.findType("homes"));
+//    System.out.println("apts\n"+test2.findType("apts"));
+//    System.out.println("\naddress---------------");
+//    System.out.println("streetA\n"+test2.findAddress("streetA"));
+//    System.out.println("streetB\n"+test2.findAddress("streetB"));
+//    System.out.println("streetC\n"+test2.findAddress("streetC"));
+//    System.out.println("streetD\n"+test2.findAddress("streetD"));
+//    System.out.println("\ndanger------------");
+//    System.out.println("inDanger\n"+test2.findDanger("inDanger"));
+//    System.out.println("notDanger\n"+test2.findDanger("notDanger"));
     
     System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n");
-    System.out.println(test2);
-    System.out.println("test2database AFTER toString~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-    System.out.println(test2.database);
-    System.out.println(test2.database.size());
     
     
-    //this method doesn't work....
-    Residence mer = new Residence("Amy", "home", "boA", 1200, 3, 2, "streetA", false);
+    //TO ADD NEW RESIDENCE OBJECTS: 1) create Residence, 2) add to all LL
+    Residence mer = new Residence("Amy Ann", "home", "boA", 1200, 3, 2, "streetA", false);
+    //test2.addToDatabase(mer); //gets Possible duplicate from addto database
     test2.addAllInfo(mer);
-    
     
     System.out.println("\ntest2 AFTER addition~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     System.out.println(test2);
     System.out.println(test2.database.size());
-    
-    
+      
     
 //    System.out.println("\nTESTING FOR getAddresses(); PRINTS OUT ARRAY REP. OF ADDRESSES");
 //    Residence[][] copy = test2.getAddresses();
@@ -636,26 +652,21 @@ public class HomesForAll implements HomesForAllInterface {
 //      }
 //    }
 //    System.out.println(s);
-  
- 
+
     System.out.println("testing update file: " );
     test2.updateInputFile("testing3.txt");
     
-    //System.out.println("test3~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-    //HomesForAll test3 = new HomesForAll("testing3.txt");
-    //System.out.println(test3);
-    //test3.addLL();
-    //System.out.println("after addll test3~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-
+    System.out.println("test3~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+    HomesForAll test3 = new HomesForAll("testing3.txt");
+    System.out.println(test3);
     
-    /*
-     * so each find____ method should first call upon a helper method that 
-     * both initializes and then sorts the database items into linkedlists that 
-     * the hash table then will sort into
-     * then at the end, the find____ method will return the value of the key input... 
-     * the "search"
-     * 
-     */
+//    System.out.println("after addll test3~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+//    System.out.println(test3.getDatabase().size());
+//    test3.addLL(); //should print out error message because all of the residence objects
+    //should already be loaded into the database linked list
+//    System.out.println(test3);
+//    System.out.println(test3.getDatabase().size());  
+//    System.out.println("Testing findInDanger\n" + test3.findDanger("inDanger"));
     
   }
 }
