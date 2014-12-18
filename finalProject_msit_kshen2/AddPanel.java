@@ -33,22 +33,20 @@ public class AddPanel extends JPanel implements ItemListener {
   private HomesForAll hfa;
   
   //other instance variables to be used in the panel
-  private JLabel resNameInput, mortgageInput, bankNameInput, addressNameInput, inDangerLabel;
-  private JTextField resNameH, resNameA, mortgage, rent, llName;
-  private JComboBox addressOptions1, addressOptions2, bankOptions;
-  private String[] addOpt1, addOpt2, bankOpt;
+  private JLabel resNameInput1, resNameInput2, mortgageLabel, bankNameInput, addressNameInput, coorInput, inDangerLabel, landlordInput, rentLabel, addressNameInputA, coorInputA, inDangerLabelA;
+  private JTextField resNameH, resNameA, mortgage, rent;
+  private JComboBox addressName, addressOptions1, addressOptions2, addressNameA, addressOptions1A, addressOptions2A, bankOptions, llName, dangerOpt, dangerOptA;
+  private String[] streetNamesRL, streetNames, streetVal, streetNamesRLA, streetNamesA, streetValA, bankStrings, landlords, dangYN, dangYNA;
   private JButton addA, addH, loadFile;
   
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   //------------------------------Constructor Methods
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   public AddPanel() {
-    //bc idk
   }
 //  
-//  
   public AddPanel(HomesForAll input) {
-   input = hfa;
+   hfa = input;
     //Create ComboBox Pane -- start of CardLayout
     JPanel comboBoxPane = new JPanel();
     comboBoxPane.setBackground(oMaroon);
@@ -76,22 +74,46 @@ public class AddPanel extends JPanel implements ItemListener {
     addH = new JButton("Add");
     addA = new JButton("Add");
     
-    String[] bankStrings = {"Bank of America", "Wells Fargo", "Chase"};
+    
+    resNameInput1 = new JLabel("Resident: ");
+    resNameInput2 = new JLabel("Resident: ");
+    mortgageLabel = new JLabel("Mortgage Value: ");
+    bankNameInput = new JLabel("Bank: ");
+    addressNameInput = new JLabel("Address: ");
+    addressNameInputA = new JLabel("Address: ");
+    coorInput = new JLabel("Coordinates: ");
+    inDangerLabel = new JLabel("Status: ");
+    coorInputA = new JLabel("Coordinates: ");
+    inDangerLabelA = new JLabel("Status: ");
+    rentLabel = new JLabel("Rent Value: ");
+    landlordInput = new JLabel("Landlord: ");
+    
+    bankStrings = new String[]{"Bank of America", "Wells Fargo", "Chase"};
     bankOptions = new JComboBox(bankStrings);
     
-    String[] streetNames = {"A", "B", "C", "D"};
-    String[] streetVal = {"1", "2", "3", "4"};
+    landlords = new String[]{"lordEmurry", "lordKasey"};
+    llName = new JComboBox(landlords);
     
+    streetNamesRL = new String[]{"streetA", "streetB", "streetC", "streetD"};
+    addressName = new JComboBox(streetNamesRL);
+    streetNamesRLA = new String[]{"streetA", "streetB", "streetC", "streetD"};
+    addressNameA = new JComboBox(streetNamesRL);
+    
+    streetNames = new String[]{"A", "B", "C", "D"};
+    streetVal = new String[]{"1", "2", "3", "4"}; 
     addressOptions1 = new JComboBox(streetNames);
     addressOptions2 = new JComboBox(streetVal);
     
+    streetNamesA = new String[]{"A", "B", "C", "D"};
+    streetValA = new String[]{"1", "2", "3", "4"}; 
+    addressOptions1A = new JComboBox(streetNames);
+    addressOptions2A = new JComboBox(streetVal);
     
-    //Adding ActionListeners to each
-    addH.addActionListener(new ButtonListener());
-    addA.addActionListener(new ButtonListener());
-    bankOptions.addActionListener(new ComboBoxListener());
-    addressOptions1.addActionListener(new ComboBoxListener());
-    addressOptions2.addActionListener(new ComboBoxListener());
+    dangYN = new String[]{"In Danger", "Not in Danger"};
+    dangerOpt = new JComboBox(dangYN);
+    dangYNA = new String[]{"In Danger", "Not in Danger"};
+    dangerOptA = new JComboBox(dangYN);
+    
     
     
     //Create the "cards".
@@ -99,27 +121,87 @@ public class AddPanel extends JPanel implements ItemListener {
     JPanel card1 = new JPanel();
     //card1.setLayout(new BorderLayout());
     card1.setBackground(Color.WHITE);
-    card1.setLayout(new BorderLayout());
     
     JPanel centerC1 = new JPanel();
-    centerC1.setLayout(new BoxLayout(centerC1, BoxLayout.Y_AXIS));
+    centerC1.setBackground(Color.WHITE);
+    centerC1.setLayout(new GridLayout(0,3));
+    centerC1.add(resNameInput1);
     centerC1.add(resNameH);
+    centerC1.add(Box.createRigidArea(new Dimension(0,5)));
+    centerC1.add(bankNameInput);
+    centerC1.add(bankOptions);
+    centerC1.add(Box.createRigidArea(new Dimension(0,5)));
+    centerC1.add(mortgageLabel);
     centerC1.add(mortgage);
-    centerC1.add(addH);
-    
+    centerC1.add(Box.createRigidArea(new Dimension(0,5)));
+    centerC1.add(addressNameInput);
+    centerC1.add(addressName);
+    centerC1.add(Box.createRigidArea(new Dimension(0,5)));
+    centerC1.add(coorInput);
+    centerC1.add(addressOptions1);
+    centerC1.add(addressOptions2);
+    centerC1.add(inDangerLabel);
+    centerC1.add(dangerOpt);
+    centerC1.add(Box.createRigidArea(new Dimension(0,5)));
+       
     card1.add(new JLabel("Add a new Home to Data"), BorderLayout.NORTH);
     card1.add(centerC1, BorderLayout.CENTER);
+    card1.add(addH, BorderLayout.SOUTH);
     
 
     //card2 is the AddApartment shown
     JPanel card2 = new JPanel();
     card2.setBackground(Color.WHITE);
     
-    card2.add(resNameA);
-    card2.add(rent);
-    card2.add(addA);
+    JPanel centerC2 = new JPanel();
+    centerC2.setBackground(Color.WHITE);
+    centerC2.setLayout(new GridLayout(0,3));
+    centerC2.add(resNameInput2);
+    centerC2.add(resNameA);
+    centerC2.add(Box.createRigidArea(new Dimension(0,5)));
+    centerC2.add(landlordInput);
+    centerC2.add(llName);
+    centerC2.add(Box.createRigidArea(new Dimension(0,5)));
+    centerC2.add(rentLabel);
+    centerC2.add(rent);
+    centerC2.add(Box.createRigidArea(new Dimension(0,5)));
+    centerC2.add(addressNameInputA);
+    centerC2.add(addressNameA);
+    centerC2.add(Box.createRigidArea(new Dimension(0,5)));
+    centerC2.add(coorInputA);
+    centerC2.add(addressOptions1A);
+    centerC2.add(addressOptions2A);
+    centerC2.add(inDangerLabelA);
+    centerC2.add(dangerOptA);
+    centerC2.add(Box.createRigidArea(new Dimension(0,5)));
+       
+    card2.add(new JLabel("Add a new Apartment to Data"), BorderLayout.NORTH);
+    card2.add(centerC2, BorderLayout.CENTER);
+    card2.add(addA, BorderLayout.SOUTH);
     
     
+    
+    //Adding ActionListeners to all
+    addH.addActionListener(new ButtonListener()); //buttons
+    addA.addActionListener(new ButtonListener());
+    
+    resNameA.addActionListener(new ButtonListener()); //text fields
+    resNameH.addActionListener(new ButtonListener());
+    mortgage.addActionListener(new ButtonListener());
+    rent.addActionListener(new ButtonListener());
+    
+    bankOptions.addActionListener(new ComboBoxListener()); //comboboxes
+    addressName.addActionListener(new ComboBoxListener());
+    addressOptions1.addActionListener(new ComboBoxListener());
+    addressOptions2.addActionListener(new ComboBoxListener());
+    llName.addActionListener(new ComboBoxListener());
+    dangerOpt.addActionListener(new ComboBoxListener());
+    
+    addressNameA.addActionListener(new ComboBoxListener());
+    addressOptions1A.addActionListener(new ComboBoxListener());
+    addressOptions2A.addActionListener(new ComboBoxListener());
+    dangerOptA.addActionListener(new ComboBoxListener());
+     
     //Create the panel that contains the "cards" (aka the two panels it flips between)
     cards = new JPanel(new CardLayout());
     cards.add(card1, HOMEPANEL);
@@ -149,6 +231,10 @@ public class AddPanel extends JPanel implements ItemListener {
     cl.show(cards, (String)evt.getItem());
   }
   
+  /**
+   * Private class ButtonListener 
+   * 
+   */
   private class ButtonListener implements ActionListener {
     public void actionPerformed(ActionEvent event) {
       //first determine whether or not we need to load in a database, creating
