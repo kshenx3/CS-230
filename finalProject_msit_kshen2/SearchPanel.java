@@ -50,7 +50,7 @@ public class SearchPanel extends JPanel implements ItemListener {
   
   
   public SearchPanel(HomesForAll input) {
-    input = hfa;
+    hfa = input;
     //Create ComboBox Pane -- start of CardLayout
     //First tab
     JPanel comboBoxPane = new JPanel();
@@ -208,7 +208,7 @@ public class SearchPanel extends JPanel implements ItemListener {
 //        //System.out.println("MEW2");
 //      } else {
 //        
-//      }
+      }
     }
     
     
@@ -228,6 +228,6 @@ public class SearchPanel extends JPanel implements ItemListener {
       }
     }
     
-  }
+  
   
 }
