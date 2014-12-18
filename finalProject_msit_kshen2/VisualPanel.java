@@ -11,6 +11,8 @@
  * 
  */
 
+import java.util.*;
+import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.Color;
@@ -23,6 +25,7 @@ public class VisualPanel extends JPanel //implements ItemListener
   //-------------------------------Instance Variables
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   private JButton[][] grid;
+  private Residence[][] info;
   private JLabel instructions, title;
   
   private HomesForAll hfa;
@@ -34,38 +37,67 @@ public class VisualPanel extends JPanel //implements ItemListener
   
   private final int DEFAULT = 4; //max size of our grid, kept small for basic functionality
   
-  private ImageIcon redH, greenH;
+  private ImageIcon redH, greenH, empty;
+  
+  
+  private JTextField fileName;
+  private JButton loadFile;
+  
+  private LinkedList dataCopy;
   
   public VisualPanel() {
   }
-  
-  
+
   public VisualPanel(HomesForAll input) {
-    hfa = input;
+    this.hfa = input;
+    
     grid = new JButton[DEFAULT][DEFAULT]; //CHANGE VALUE/SIZE OF 2D ARRAY HERE
     
     redH = new ImageIcon("red house.png");
     greenH = new ImageIcon("green house.png");
+    empty = new ImageIcon("empty.png");
+    
+    /* TEMP */
+    fileName = new JTextField("Type file name here to load.");
+    loadFile = new JButton("Load File");
+    loadFile.addActionListener(new ButtonListener());
     
     
+    
+    //creating map in grid representation
     JPanel center = new JPanel();
     center.setLayout(new GridLayout(4, 4, 5, 5));
     center.setBackground(oGrey);
     
+    info = new Residence[DEFAULT][DEFAULT];
+    //info = hfa.getAddresses();
+    
     for (int i=0; i<DEFAULT; i++) {
       for (int j=0; j<DEFAULT; j++) {
-        JButton mew = new JButton("HOME", greenH);
+        JButton mew = new JButton(" ");
         mew.setPreferredSize(new Dimension(15,15));
         
         //at creation of button, we can also go through maybe the 2d array storing places
         //check if null, (true: then skip, move on), (false: isInDanger? true: set this icon; false
         // set some other icon)
         
-//        if(/*array[i][j] or whatever getter method .getIsInDanger */) {
-//          if(/*array[i][j].getResType().equals("home")*/) { //set to this icon.
-//            //or else the other, same for apt
+
+//        for(int i = 0; i<DEFAULT; i++) {
+//          for(int j = 0; i<DEFAULT; j++) {
+       //     JButton mew = grid[i][j];
+//            
+//            if(info[i][j] != null) {
+//              if(info[i][j].getIsInDanger()) {
+//                mew.setIcon(redH);
+//            } else {
+//              mew.setIcon(greenH);
+//            }
+//          } else {
+//            mew.setIcon(empty);
         
-        //mew.setIcon(greenH);
+        
+        
+        
         
         grid[i][j] = mew;
         grid[i][j].addActionListener(new ButtonListener());     
@@ -74,6 +106,7 @@ public class VisualPanel extends JPanel //implements ItemListener
         center.add(grid[i][j]);
       }
     }
+    
     
     JPanel southernFIST = new JPanel();
     southernFIST.add(Box.createRigidArea(new Dimension(15,25)));
@@ -91,6 +124,8 @@ public class VisualPanel extends JPanel //implements ItemListener
     instructions = new JLabel("Lovely shits go here");
     instructions.setForeground(Color.WHITE);
     
+    northernWind.add(fileName);
+    northernWind.add(loadFile);
     northernWind.add(title);
     northernWind.add(instructions);
     
@@ -122,6 +157,24 @@ public class VisualPanel extends JPanel //implements ItemListener
   
   private class ButtonListener implements ActionListener {
     public void actionPerformed(ActionEvent event) {
+      //info = hfa.getAddresses();
+      
+      
+//      for(int i = 0; i<DEFAULT; i++) {
+//        for(int j = 0; i<DEFAULT; j++) {
+//          JButton mew = grid[i][j];
+//          
+//          if(info[i][j] != null) {
+//            if(info[i][j].getIsInDanger()) {
+//              mew.setIcon(redH);
+//            } else {
+//              mew.setIcon(greenH);
+//            }
+//          } else {
+//            mew.setIcon(empty);
+//          }
+//        }
+//      }
       
       //check to see if any of the 9 buttons was pressed
       for (int i=0; i<DEFAULT; i++) {
@@ -164,9 +217,4 @@ public class VisualPanel extends JPanel //implements ItemListener
       
     }
   }
-  
-  
-  
-  
-  
 }
