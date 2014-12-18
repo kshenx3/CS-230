@@ -2,9 +2,9 @@
  * CS 230 - Final Project
  * AboutPanel.java
  * 
- * Michelle Sit & Kasey Shen
+ * [Michelle Sit &] Kasey Shen
  * 
- * PURPOSE:
+ * PURPOSE: Creates AddPanel for HomesForAllGUI.
  * 
  */
 
@@ -44,7 +44,7 @@ public class AddPanel extends JPanel implements ItemListener {
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   public AddPanel() {
   }
-//  
+  
   public AddPanel(HomesForAll input) {
    hfa = input;
     //Create ComboBox Pane -- start of CardLayout
@@ -73,7 +73,6 @@ public class AddPanel extends JPanel implements ItemListener {
     rent = new JTextField("Enter rent value", 20);
     addH = new JButton("Add");
     addA = new JButton("Add");
-    
     
     resNameInput1 = new JLabel("Resident: ");
     resNameInput2 = new JLabel("Resident: ");
@@ -122,6 +121,7 @@ public class AddPanel extends JPanel implements ItemListener {
     //card1.setLayout(new BorderLayout());
     card1.setBackground(Color.WHITE);
     
+    //adding certain Jthings
     JPanel centerC1 = new JPanel();
     centerC1.setBackground(Color.WHITE);
     centerC1.setLayout(new GridLayout(0,3));
@@ -153,6 +153,7 @@ public class AddPanel extends JPanel implements ItemListener {
     JPanel card2 = new JPanel();
     card2.setBackground(Color.WHITE);
     
+    //adding certain Jthings
     JPanel centerC2 = new JPanel();
     centerC2.setBackground(Color.WHITE);
     centerC2.setLayout(new GridLayout(0,3));
@@ -202,12 +203,12 @@ public class AddPanel extends JPanel implements ItemListener {
     addressOptions2A.addActionListener(new ComboBoxListener());
     dangerOptA.addActionListener(new ComboBoxListener());
      
+    
     //Create the panel that contains the "cards" (aka the two panels it flips between)
     cards = new JPanel(new CardLayout());
     cards.add(card1, HOMEPANEL);
     cards.add(card2, APTPANEL);
-    
-    
+      
     //Create southern panel
     JPanel southernFist = new JPanel();
     southernFist.setBackground(oGold);
@@ -251,26 +252,28 @@ public class AddPanel extends JPanel implements ItemListener {
         hfa = temp;
       }
       
+      //create variables to store values until adding Home/Apt
+      
+      
       //what happens when the other buttons are clicked
       if(event.getSource() == addH) {
-        
+       //hfa.
         
         //System.out.println("MEW1");
       } else if (event.getSource() == addA) {
         
         //System.out.println("MEW2");
       } else {
-        
+        //do nothing
       }
+      
     }
   }
   
   private class ComboBoxListener implements ActionListener {
     public void actionPerformed(ActionEvent event) {
       
-      
-      
+
     }
   }
-  
 }
