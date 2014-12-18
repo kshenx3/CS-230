@@ -26,7 +26,7 @@ public class VisualPanel extends JPanel //implements ItemListener
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   private JButton[][] grid;
   private Residence[][] info;
-  private JLabel instructions, title;
+  private JLabel title;
   
   private HomesForAll hfa;
   
@@ -41,9 +41,8 @@ public class VisualPanel extends JPanel //implements ItemListener
   
   
   private JTextField fileName;
-  private JButton loadFile;
-  
-  private LinkedList dataCopy;
+  private JButton loadFile, instructButton;
+
   
   public VisualPanel() {
   }
@@ -56,12 +55,12 @@ public class VisualPanel extends JPanel //implements ItemListener
     redH = new ImageIcon("red house.png");
     greenH = new ImageIcon("green house.png");
     empty = new ImageIcon("empty.png");
-    
-    /* TEMP */
+     
     fileName = new JTextField("Type file name here to load.");
     loadFile = new JButton("Load File");
     loadFile.addActionListener(new ButtonListener());
     
+    instructButton = new JButton("Instructions");
     
     
     //creating map in grid representation
@@ -75,35 +74,28 @@ public class VisualPanel extends JPanel //implements ItemListener
     for (int i=0; i<DEFAULT; i++) {
       for (int j=0; j<DEFAULT; j++) {
         JButton mew = new JButton(" ");
-        mew.setPreferredSize(new Dimension(15,15));
+        //mew.setPreferredSize(new Dimension(15,15));
         
         //at creation of button, we can also go through maybe the 2d array storing places
         //check if null, (true: then skip, move on), (false: isInDanger? true: set this icon; false
         // set some other icon)
-        
-
-//        for(int i = 0; i<DEFAULT; i++) {
-//          for(int j = 0; i<DEFAULT; j++) {
-       //     JButton mew = grid[i][j];
-//            
-//            if(info[i][j] != null) {
-//              if(info[i][j].getIsInDanger()) {
-//                mew.setIcon(redH);
-//            } else {
-//              mew.setIcon(greenH);
-//            }
-//          } else {
-//            mew.setIcon(empty);
-        
-        
-        
-        
-        
+     
         grid[i][j] = mew;
-        grid[i][j].addActionListener(new ButtonListener());     
+
+        
+        if(info[i][j] != null) {
+          if(info[i][j].getIsInDanger()) {
+            mew.setIcon(redH);
+          } else {
+            mew.setIcon(greenH);
+          }
+        } else {
+          //System.out.println("Reached null point for info"); /*Testing purposes*/
+        }
         
         // add each Button to the Panel
         center.add(grid[i][j]);
+        grid[i][j].addActionListener(new ButtonListener());
       }
     }
     
@@ -115,34 +107,39 @@ public class VisualPanel extends JPanel //implements ItemListener
     
     JPanel northernWind = new JPanel();
     northernWind.setBackground(oMaroon);
-    northernWind.setLayout(new BoxLayout(northernWind, BoxLayout.Y_AXIS));
+    northernWind.setLayout(new BorderLayout());
     
-    title = new JLabel("VISUAL!!!! (aka RO <3)");
+    title = new JLabel("Visual Representation of Your Data");
     title.setForeground(Color.WHITE);
-    title.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
+    title.setFont(new Font("Verdana", Font.PLAIN, 30));
     
-    instructions = new JLabel("Lovely shits go here");
-    instructions.setForeground(Color.WHITE);
     
-    northernWind.add(fileName);
-    northernWind.add(loadFile);
-    northernWind.add(title);
-    northernWind.add(instructions);
     
-    northernWind.add(Box.createRigidArea(new Dimension(0, 50)));
-    northernWind.add(Box.createRigidArea(new Dimension(75, 0)));
+    JPanel inceptionNorth = new JPanel();
+    inceptionNorth.add(fileName);
+    inceptionNorth.add(loadFile);
+    inceptionNorth.setBackground(oMaroon);
     
-    //northernWind.setLayout(new BorderLayout());
-    //northernWind.add(instructions, BorderLayout.CENTER);
-    //northernWind.add(title, BorderLayout.NORTH);
+    JPanel centerCeption = new JPanel();
+    //centerCeption.setLayout(new BorderLayout());
+    centerCeption.setBackground(oGrey);
+    centerCeption.add(title);
+    centerCeption.add(instructButton);
+    instructButton.addActionListener(new ButtonListener());
+   
     
+    northernWind.add(inceptionNorth, BorderLayout.NORTH);
+    northernWind.add(centerCeption, BorderLayout.CENTER);
+    
+    
+    //western panel for filling
     JPanel westernHats = new JPanel();
     westernHats.setBackground(oGrey);
-    westernHats.add(Box.createRigidArea(new Dimension(25,0)));
-    
+    westernHats.add(Box.createRigidArea(new Dimension(100,0)));
+    //eastern panel for filling
     JPanel easternFood = new JPanel();
     easternFood.setBackground(oGrey);
-    easternFood.add(Box.createRigidArea(new Dimension(25,0)));
+    easternFood.add(Box.createRigidArea(new Dimension(100,0)));
     
     setLayout(new BorderLayout());
     add(northernWind, BorderLayout.NORTH);
@@ -152,68 +149,66 @@ public class VisualPanel extends JPanel //implements ItemListener
     add(easternFood, BorderLayout.EAST);
   }
   
-  
-  //Instance Methods
-  
+
+  /**
+   * Private class ButtonListener to update panel once actions heard
+   * 
+   */
   private class ButtonListener implements ActionListener {
     public void actionPerformed(ActionEvent event) {
-      //info = hfa.getAddresses();
-      
-      
-//      for(int i = 0; i<DEFAULT; i++) {
-//        for(int j = 0; i<DEFAULT; j++) {
-//          JButton mew = grid[i][j];
-//          
-//          if(info[i][j] != null) {
-//            if(info[i][j].getIsInDanger()) {
-//              mew.setIcon(redH);
-//            } else {
-//              mew.setIcon(greenH);
-//            }
-//          } else {
-//            mew.setIcon(empty);
-//          }
-//        }
-//      }
-      
-      //check to see if any of the 9 buttons was pressed
-      for (int i=0; i<DEFAULT; i++) {
-        for (int j=0; j<DEFAULT; j++) {
-          if (event.getSource() == grid[i][j]) { //if button pressed among the 16,
-            //if (grid[i][j].getIcon().equals(/*icon source goes here*/)) {
-            //    JOptionPane.showMessageDialog("No residence exists here!");
-            
-            
-            //JOptionPane.showMessageDialog
-            Residence test = new Residence();
-            String popUpTitle = test.getResident() + " @ " + test.getAddress();
-            
-            JOptionPane.showMessageDialog(null,
-                                          test, //once we connect functions, this should be grid[i][j]
-                                          //or whatever array name we title that stores the residences
-                                          //so like, hfa.getResidentAtAddress(i,j); --> returns address[i][j]
-                                          //or something like that
-                                          //what this means is that we will need a 2D array instance var
-                                          //in HFA.java b/c it will store the locations of the places...
-                                          popUpTitle,
-                                          JOptionPane.PLAIN_MESSAGE);
-
-//            //a button was pressed
-//            if (game.getIsXTurn()) {  //x's turn
-//              buttons[i][j].setText("X");
-//              
-//              statusLabel.setText("O's turn now");
-//              statusLabel.setIcon(oImg);
-//            }
-//            else { //o's turn
-//              buttons[i][j].setText("O"); //play O
-//              statusLabel.setText("X's turn now");
-//              statusLabel.setIcon(xImg);
-//            }
-           
+      if (event.getSource() == loadFile) {
+        String file = fileName.getText();
+        HomesForAll temp = new HomesForAll(file);
+        hfa = temp;
+        loadFile.setText("File loaded");
+        //System.out.println("Testng");
+        //System.out.println(hfa);      
+        
+        info = hfa.getAddresses();
+        
+        for (int i=0; i<DEFAULT; i++) {
+          for (int j=0; j<DEFAULT; j++) {
+            if(info[i][j] != null) {
+              if(info[i][j].getIsInDanger()) {
+                grid[i][j].setIcon(redH);
+              } else {
+                grid[i][j].setIcon(greenH);
+              }
+            } else {
+              //System.out.println("Reached null point for info"); /*Testing purpose*/
+            }
           }
-        }  
-      }//closes outer for loop
+        }
+      } 
+ 
+      //use try-catch lets us deal with nulls in info[][]
+      try {
+        //check to see if any of the 16 buttons was pressed
+        for (int i=0; i<DEFAULT; i++) {
+          for (int j=0; j<DEFAULT; j++) {
+            if (event.getSource() == grid[i][j]) { //if so, then display dialog box
+              Residence sub = info[i][j];
+              String popUpTitle = sub.getResident() + " @ " + sub.getAddress();
+              
+              JOptionPane.showMessageDialog(null, //unique message dialog box construction
+                                            info[i][j], 
+                                            popUpTitle,
+                                            JOptionPane.PLAIN_MESSAGE);
+            }
+          }  
+        }//closes outer for loop
+      } catch (NullPointerException e) { //catch the NullPointer when no residence exists
+        //shows appropriate message to user
+        JOptionPane.showMessageDialog(null, "No residence exists here!");
+      }
+      
+      if(event.getSource() == instructButton) {
+        JOptionPane.showMessageDialog(null, "\nTo see a visual representation of your data world"
+                                      +"\nfirst load file. Then, the buttons below will update."
+                                      + "\nA red residence symbolizes the residence being in danger"
+                                      +"\nwhile a green residence means its status is okay. Click"
+                                      + "\n the button for more information.");
+      }
       
     }
   }
