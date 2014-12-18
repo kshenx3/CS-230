@@ -2,9 +2,9 @@
  * CS 230 - Final Project
  * AboutPanel.java
  * 
- * Michelle Sit & Kasey Shen
+ * Michelle Sit [& Kasey Shen]
  * 
- * PURPOSE:
+ * PURPOSE: Creates the Search tab for HomesForAllGUI.
  * 
  */
 
@@ -49,8 +49,7 @@ public class SearchPanel extends JPanel implements ItemListener {
   public SearchPanel() {
     //bc idk
   }
-  
-  
+
   public SearchPanel(HomesForAll input) {
     hfa = input;
     //Create ComboBox Pane -- start of CardLayout
@@ -178,6 +177,14 @@ public class SearchPanel extends JPanel implements ItemListener {
   
   private class ButtonListener implements ActionListener {
     public void actionPerformed(ActionEvent event) {
+      //load file
+      if (event.getSource() == loadFile) {
+        String file = fileName.getText();
+        HomesForAll temp = new HomesForAll(file);
+        hfa = temp;
+        loadFile.setText("File loaded");
+      }
+      
       if (event.getSource() == searchButton1) {
         bankBox.getSelectedItem();
         if (bankBox.getSelectedItem() == "Bank of America") {
@@ -259,7 +266,7 @@ public class SearchPanel extends JPanel implements ItemListener {
 //        //System.out.println("MEW2");
 //      } else {
 //        
-  
+
   
   private class ComboBoxListener implements ActionListener {
     public void actionPerformed(ActionEvent event) {
