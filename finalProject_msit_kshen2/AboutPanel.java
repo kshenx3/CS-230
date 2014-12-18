@@ -2,9 +2,9 @@
  * CS 230 - Final Project
  * AboutPanel.java
  * 
- * Michelle Sit & Kasey Shen
+ * Michelle Sit [& Kasey Shen]
  * 
- * PURPOSE: Creates 
+ * PURPOSE: Creates the About tab for the HomesForAllGUI
  * 
  */
 
@@ -24,24 +24,25 @@ public class AboutPanel extends JPanel {
   private JPanel titlePanel, programInfo, creatorsInfo, leftPanel, rightPanel;
   private HomesForAll hfaAbout;
   
-  public AboutPanel() {
-    //meow .__.
-  }
+  private Color oMaroon = new Color(166, 29, 40);
+  private Color ourGreen = new Color(26, 151, 34);
+  private Color oGrey = new Color(46, 46, 46);
+  private Color oGold = new Color(224, 141, 56);
   
-  public AboutPanel(HomesForAll input) {
-    hfaAbout = input;
-    
+  public AboutPanel() {
+ 
     //North Panel
     JLabel mainTitle = new JLabel("Homes For All");
     mainTitle.setFont(new Font("Verdana", Font.BOLD, 50));
     mainTitle.setForeground(Color.WHITE);
     
+    ImageIcon mew = new ImageIcon("logo.png");
+    
     //adding and spacing
     JPanel titlePanel = new JPanel();
-    titlePanel.setLayout(new BoxLayout(titlePanel, BoxLayout.Y_AXIS));
-    titlePanel.setBackground(new Color (25, 171, 33));
-    titlePanel.add(mainTitle);
-    titlePanel.add(Box.createRigidArea(new Dimension(0,50)));
+    titlePanel.setBackground(Color.WHITE);
+    titlePanel.add(new JLabel(mew));
+
     
     //Center Panel
     //About content
@@ -88,9 +89,9 @@ public class AboutPanel extends JPanel {
     //Creator descriptions
     JLabel aboutCreators = new JLabel("About the Creators~");
     JLabel michelle = new JLabel("Michelle Sit");
-    JLabel mDescript = new JLabel("Msit's description goes here");
+    JLabel mDescript = new JLabel("Michelle is currently a senior at Wellesley College. She really likes birds.");
     JLabel kasey = new JLabel("Kasey Shen");
-    JLabel kDescript = new JLabel("Kasey's description?"); 
+    JLabel kDescript = new JLabel("Kasey is currently a sophomore at Wellesley College. She really likes cats."); 
     
     //font formatting
     aboutCreators.setFont(new Font("Verdana", Font.BOLD, 25));
@@ -111,21 +112,27 @@ public class AboutPanel extends JPanel {
        
     //Panels used for spacing
     JPanel bottomPanel = new JPanel();
-    bottomPanel.setLayout(new GridLayout(0,2));
     bottomPanel.setBackground(new Color (25, 171, 33));
-    bottomPanel.setFont(new Font("Helvetica", Font.BOLD, 18));
-    bottomPanel.add(Box.createRigidArea(new Dimension(0,100)));
+    bottomPanel.setLayout(new BorderLayout());
+    bottomPanel.add(Box.createRigidArea(new Dimension(0,100)), BorderLayout.NORTH);
+    JPanel subBPanel = new JPanel();
+    subBPanel.setBackground(oGold);
+    subBPanel.add(Box.createRigidArea(new Dimension(0, 25)));
+    bottomPanel.add(subBPanel, BorderLayout.SOUTH);
     
+    //create filler for left
     JPanel leftPanel = new JPanel();
     leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
     leftPanel.setBackground(Color.WHITE);
     leftPanel.add(Box.createRigidArea(new Dimension(100,0)));
     
+    //create filler for right
     JPanel rightPanel = new JPanel();
     rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
     rightPanel.setBackground(Color.WHITE);
     rightPanel.add(Box.createRigidArea(new Dimension(100,0)));
     
+    //add all the elements
     this.setLayout(new BorderLayout());
     this.add(titlePanel, BorderLayout.NORTH);
     this.add(programInfo, BorderLayout.CENTER);
