@@ -45,10 +45,10 @@ public class AddPanel extends JPanel implements ItemListener {
   public AddPanel() {
     //bc idk
   }
-  
-  
+//  
+//  
   public AddPanel(HomesForAll input) {
-    input = hfa;
+   input = hfa;
     //Create ComboBox Pane -- start of CardLayout
     JPanel comboBoxPane = new JPanel();
     comboBoxPane.setBackground(oMaroon);
@@ -149,19 +149,20 @@ public class AddPanel extends JPanel implements ItemListener {
     cl.show(cards, (String)evt.getItem());
   }
   
-  
   private class ButtonListener implements ActionListener {
     public void actionPerformed(ActionEvent event) {
       //first determine whether or not we need to load in a database, creating
       //a HFA from a file or else creating an empty one
       if (event.getSource() == loadFile) {
           String file = fileName.getText();
-          hfa = new HomesForAll(file);
+          HomesForAll temp = new HomesForAll(file);
+          hfa = temp;
           loadFile.setText("File loaded");
           //System.out.println("Testng");
           //System.out.println(hfa);      
       } else {  
-        hfa = new HomesForAll();
+        HomesForAll temp = new HomesForAll();
+        hfa = temp;
       }
       
       //what happens when the other buttons are clicked
